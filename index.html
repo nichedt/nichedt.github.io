@@ -10,21 +10,24 @@
 
     var ctx = document.getElementById("ctx").getContext("2d");
     ctx.fillStyle = 'pink';
-    ctx.font = '30px Arial';
     ctx.globalAlpha = 0.5;
 
     var WIDTH = 512;
     var HEIGHT = 512;
 
+	var length0 = 9;
+	var x0 = WIDTH/16;
+	var y0 = WIDTH/16
+
     var snake = {
         head:{
-            x:5*WIDTH/16,
-            y:WIDTH/16,
+            x:length0*x0,
+            y:y0,
             dir:39, //right
         },
         tail:{
-            x:0,
-            y:WIDTH/16,
+            x:x0,
+            y:y0,
             dir:39, //right
         },
         blockSize:WIDTH/16,
@@ -41,17 +44,23 @@
     
 //function definitions
 function update(){
-    
+	
+	if(snake.turnq.length > 0){
+		snake.head.dir = snake.turnq[snake.turnq.length-1].dir;
+	}
+	
     blockPosUpdate(snake.head);
-    ctx.fillRect(    snake.head.x+snake.borderSize       ,
-                     snake.head.y+snake.borderSize       ,
-                     snake.blockSize-snake.borderSize    ,
-                     snake.blockSize-snake.borderSize    );
     
     ctx.clearRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
+	
+	ctx.fillRect(   snake.head.x+snake.borderSize       ,
+				 	snake.head.y+snake.borderSize       ,
+				 	snake.blockSize-snake.borderSize    ,
+				 	snake.blockSize-snake.borderSize    );
+	drawEyes();
     
     blockPosUpdate(snake.tail);
-    
+	
     if(snake.turnq.length > 0){
         if( snake.turnq[0].x == snake.tail.x &&
             snake.turnq[0].y == snake.tail.y ){
@@ -65,34 +74,43 @@ function update(){
     
 }
 
+function drawEyes(){
+	
+}
+
 function isDead(){
-    
-	if( snake.head.x+snake.blockSize >= WIDTH    ||
-		snake.head.x <= 0                        ||
-		snake.head.y+snake.blockSize >= HEIGHT   ||
-		snake.head.y <= 0                        ){
+	
+	//wall collisions
+	if( snake.head.x+snake.blockSize > WIDTH    ||
+		snake.head.x+snake.blockSize <= 0       ||
+		snake.head.y+snake.blockSize > HEIGHT   ||
+		snake.head.y+snake.blockSize <= 0       ){
 		return true;
 	}
-		
+
+	return bodyCollide();
+}
+
+function bodyCollide(){
 	if(snake.turnq.length > 0){
 		switch(snake.tail.dir){
-		case 37: //left
-			if(collide("y", snake.tail, snake.turnq[0])){
+			case 37: //left
+			if(headIntersect("y", snake.tail, snake.turnq[0])){
 				return true;
 			}
 			break;
-		case 38: //up
-			if(collide("x", snake.tail, snake.turnq[0])){
+			case 38: //up
+			if(headIntersect("x", snake.tail, snake.turnq[0])){
 				return true;
 			}
 			break;
-		case 39: //right
-			if(collide("y", snake.turnq[0], snake.tail)){
+			case 39: //right
+			if(headIntersect("y", snake.turnq[0], snake.tail)){
 				return true;
 			}
 			break;
-		case 40: //down
-			if(collide("x", snake.turnq[0], snake.tail)){
+			case 40: //down
+			if(headIntersect("x", snake.turnq[0], snake.tail)){
 				return true;
 			}
 			break;
@@ -100,23 +118,23 @@ function isDead(){
 	}
 	for(var i = 1; i < snake.turnq.length; i++){
 		switch(snake.turnq[i-1].dir){
-		case 37: //left
-			if(collide("y", snake.turnq[i-1], snake.turnq[i])){
+			case 37: //left
+			if(headIntersect("y", snake.turnq[i-1], snake.turnq[i])){
 				return true;
 			}
 			break;
-		case 38: //up
-			if(collide("x", snake.turnq[i-1], snake.turnq[i])){
+			case 38: //up
+			if(headIntersect("x", snake.turnq[i-1], snake.turnq[i])){
 				return true;
 			}
 			break;
-		case 39: //right
-			if(collide("y", snake.turnq[i], snake.turnq[i-1])){
+			case 39: //right
+			if(headIntersect("y", snake.turnq[i], snake.turnq[i-1])){
 				return true;
 			}
 			break;
-		case 40: //down
-			if(collide("x", snake.turnq[i], snake.turnq[i-1])){
+			case 40: //down
+			if(headIntersect("x", snake.turnq[i], snake.turnq[i-1])){
 				return true;
 			}
 			break;
@@ -126,7 +144,7 @@ function isDead(){
 	return false;
 }
 
-function collide(cmnAx, startBlock, endBlock){
+function headIntersect(cmnAx, startBlock, endBlock){
 	var offAx = (cmnAx == "y")?"x":"y";
 	if(snake.head[cmnAx] == startBlock[cmnAx]){
 		if(	startBlock[offAx] >= snake.head[offAx]	&&
@@ -160,13 +178,10 @@ document.onkeydown = function(e) {
 	case 38: //up
 	case 39: //right
 	case 40: //down
-		if(	e.keyCode+2 != snake.head.dir     && //not backwards
-			e.keyCode-2 != snake.head.dir     &&
-			e.keyCode   != snake.head.dir     ){ //not forwards
+		if(	(e.keyCode % 2) != (snake.head.dir % 2) ){ //change direction
 			snake.turnq.push({	x:snake.head.x,
 							 	y:snake.head.y,
 							 	dir:e.keyCode,	});
-			snake.head.dir = e.keyCode;
 		}
 		break;
 	}
