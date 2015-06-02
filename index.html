@@ -2,24 +2,23 @@
 <!-- index.html by Nicholas Tan -->
 <!-- my first website -->
 
-<div id='keypress_con'>
 <canvas id="ctx" width="512" height="512" style="border:1px solid #000000;"></canvas>
-</div>
 
 <script>
 
-    var ctx = document.getElementById("ctx").getContext("2d");
-    ctx.fillStyle = 'pink';
-    ctx.globalAlpha = 0.5;
+	ctx = document.getElementById("ctx").getContext("2d");
+	ctx.fillStyle = 'pink';
+	ctx.globalAlpha = 0.5;
 
     var WIDTH = 512;
     var HEIGHT = 512;
 
-	var length0 = 9;
+	var length0 = 8;
 	var x0 = WIDTH/16;
-	var y0 = WIDTH/16
+	var y0 = WIDTH/16;
 
     var snake = {
+		color:'pink',
         head:{
             x:length0*x0,
             y:y0,
@@ -34,32 +33,42 @@
         borderSize:WIDTH/16/16,
         turnq:[],
     };
+	ctx.fillStyle = 'red'; //initial "worm hole"
+    ctx.fillRect( 			snake.head.x+snake.borderSize       ,
+                    		snake.head.y+snake.borderSize       ,
+                    		snake.blockSize-snake.borderSize    ,
+                    		snake.blockSize-snake.borderSize    );
+	ctx.fillStyle = snake.color;
+	
+	var food = {
+		x:snake.head.y,
+		y:snake.head.x,
+	};
+	spawnFood();
 
-    ctx.fillRect(   snake.head.x+snake.borderSize       ,
-                    snake.head.y+snake.borderSize       ,
-                    snake.blockSize-snake.borderSize    ,
-                    snake.blockSize-snake.borderSize    );
-    
-    var frame = setInterval(update,500);
+    var frame = setInterval(update,200);
     
 //function definitions
 function update(){
-	
+
 	if(snake.turnq.length > 0){
 		snake.head.dir = snake.turnq[snake.turnq.length-1].dir;
 	}
 	
     blockPosUpdate(snake.head);
-    
-    ctx.clearRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
 	
-	ctx.fillRect(   snake.head.x+snake.borderSize       ,
-				 	snake.head.y+snake.borderSize       ,
-				 	snake.blockSize-snake.borderSize    ,
-				 	snake.blockSize-snake.borderSize    );
+	if(snake.head.x != food.x || snake.head.y != food.y){
+		ctx.clearRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
+		blockPosUpdate(snake.tail);
+	}else{
+		spawnFood();
+	}
+	
+	ctx.fillRect(   		snake.head.x+snake.borderSize       ,
+				 			snake.head.y+snake.borderSize       ,
+				 			snake.blockSize-snake.borderSize    ,
+				 			snake.blockSize-snake.borderSize    );
 	drawEyes();
-    
-    blockPosUpdate(snake.tail);
 	
     if(snake.turnq.length > 0){
         if( snake.turnq[0].x == snake.tail.x &&
@@ -70,8 +79,23 @@ function update(){
     
     if(isDead()){
        clearInterval(frame);
+	   console.log("game over!");
     }
     
+}
+
+function spawnFood(){
+	do{
+		food.x = WIDTH/16*Math.floor(Math.random() * (16));
+		food.y = WIDTH/16*Math.floor(Math.random() * (16));
+	}while(bodyCollide(food));
+	ctx.beginPath();
+	ctx.arc(	food.x+(snake.borderSize+snake.blockSize)/2		,
+				food.y+(snake.borderSize+snake.blockSize)/2		,
+				(snake.blockSize-4*snake.borderSize)/2			,
+				0												,
+				2*Math.PI										);
+	ctx.stroke();
 }
 
 function drawEyes(){
@@ -88,29 +112,29 @@ function isDead(){
 		return true;
 	}
 
-	return bodyCollide();
+	return bodyCollide(snake.head);
 }
 
-function bodyCollide(){
+function bodyCollide(block){
 	if(snake.turnq.length > 0){
 		switch(snake.tail.dir){
 			case 37: //left
-			if(headIntersect("y", snake.tail, snake.turnq[0])){
+			if(headIntersect(block, "y", snake.tail, snake.turnq[0])){
 				return true;
 			}
 			break;
 			case 38: //up
-			if(headIntersect("x", snake.tail, snake.turnq[0])){
+			if(headIntersect(block, "x", snake.tail, snake.turnq[0])){
 				return true;
 			}
 			break;
 			case 39: //right
-			if(headIntersect("y", snake.turnq[0], snake.tail)){
+			if(headIntersect(block, "y", snake.turnq[0], snake.tail)){
 				return true;
 			}
 			break;
 			case 40: //down
-			if(headIntersect("x", snake.turnq[0], snake.tail)){
+			if(headIntersect(block, "x", snake.turnq[0], snake.tail)){
 				return true;
 			}
 			break;
@@ -119,22 +143,22 @@ function bodyCollide(){
 	for(var i = 1; i < snake.turnq.length; i++){
 		switch(snake.turnq[i-1].dir){
 			case 37: //left
-			if(headIntersect("y", snake.turnq[i-1], snake.turnq[i])){
+			if(headIntersect(block, "y", snake.turnq[i-1], snake.turnq[i])){
 				return true;
 			}
 			break;
 			case 38: //up
-			if(headIntersect("x", snake.turnq[i-1], snake.turnq[i])){
+			if(headIntersect(block, "x", snake.turnq[i-1], snake.turnq[i])){
 				return true;
 			}
 			break;
 			case 39: //right
-			if(headIntersect("y", snake.turnq[i], snake.turnq[i-1])){
+			if(headIntersect(block, "y", snake.turnq[i], snake.turnq[i-1])){
 				return true;
 			}
 			break;
 			case 40: //down
-			if(headIntersect("x", snake.turnq[i], snake.turnq[i-1])){
+			if(headIntersect(block, "x", snake.turnq[i], snake.turnq[i-1])){
 				return true;
 			}
 			break;
@@ -144,11 +168,11 @@ function bodyCollide(){
 	return false;
 }
 
-function headIntersect(cmnAx, startBlock, endBlock){
+function headIntersect(block, cmnAx, startBlock, endBlock){
 	var offAx = (cmnAx == "y")?"x":"y";
-	if(snake.head[cmnAx] == startBlock[cmnAx]){
-		if(	startBlock[offAx] >= snake.head[offAx]	&&
-		   	snake.head[offAx] >= endBlock[offAx]	){
+	if(block[cmnAx] == startBlock[cmnAx]){
+		if(	startBlock[offAx] >= block[offAx]	&&
+		   	block[offAx] >= endBlock[offAx]		){
 			return true;
 		}
 	}
