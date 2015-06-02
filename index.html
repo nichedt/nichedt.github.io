@@ -19,7 +19,7 @@
 
     var snake = {
         head:{
-            x:2*WIDTH/16,
+            x:5*WIDTH/16,
             y:WIDTH/16,
             dir:39, //right
         },
@@ -29,6 +29,7 @@
             dir:39, //right
         },
         blockSize:WIDTH/16,
+        borderSize:WIDTH/16/16,
         turn:{
             q:[],
             xs:[],
@@ -36,15 +37,22 @@
         }
     };
 
-    ctx.fillRect(snake.head.x,snake.head.y,snake.blockSize,snake.blockSize);
+    ctx.fillRect(   snake.head.x+snake.borderSize       ,
+                    snake.head.y+snake.borderSize       ,
+                    snake.blockSize-snake.borderSize    ,
+                    snake.blockSize-snake.borderSize    );
     ctx.fillRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
     
-    setInterval(update,500);
-
+    var frame = setInterval(update,500);
+    
+//function definitions
 function update(){
     
     blockPosUpdate(snake.head);
-    ctx.fillRect(snake.head.x,snake.head.y,snake.blockSize,snake.blockSize);
+    ctx.fillRect(    snake.head.x+snake.borderSize       ,
+                     snake.head.y+snake.borderSize       ,
+                     snake.blockSize-snake.borderSize    ,
+                     snake.blockSize-snake.borderSize    );
     
     ctx.clearRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
     
@@ -59,32 +67,60 @@ function update(){
         }
     }
     
+    if(isAlive(snake.head, snake.turn)){
+       clearInterval(frame);
+    }
+    
+}
+
+function isAlive(block, turn){
+    
+	if( block.x+snake.blockSize >= WIDTH    ||
+		block.x <= 0                        ||
+		block.y+snake.blockSize >= HEIGHT   ||
+		block.y <= 0                        ){
+		return true;
+	}
+	
+	for(var i = 1; i < turn.q.length; i++){
+		
+	}
+}
+
+function collide(block, startCoord, endCoord){
+	
 }
 
 function blockPosUpdate(block){
     switch(block.dir){
         case 37: //left
-        block.x -= snake.blockSize;
-        break;
+            block.x -= snake.blockSize;
+            break;
         case 38: //up
-        block.y -= snake.blockSize;
-        break;
+            block.y -= snake.blockSize;
+            break;
         case 39: //right
-        block.x += snake.blockSize;
-        break;
+            block.x += snake.blockSize;
+            break;
         case 40: //down
-        block.y += snake.blockSize;
-        break;
+            block.y += snake.blockSize;
+            break;
     }
 }
 
 $(function(){
     $('html').keydown(function(e){
-        if(e.which >= 37 && e.which <=40){
-            snake.head.dir = e.which;
+        if( e.which >= 37 && e.which <=40   && //arrowkeys
+            e.which+2 != snake.head.dir     && //not backwards
+            e.which-2 != snake.head.dir     &&
+            e.which   != snake.head.dir     ){ //not forwards
             snake.turn.q.push(e.which);
+				  console.log(snake.turn.q[snake.turn.q.length-1]);
             snake.turn.xs.push(snake.head.x);
+				  console.log(snake.turn.xs[snake.turn.xs.length-1]);
             snake.turn.ys.push(snake.head.y);
+				  console.log(snake.turn.ys[snake.turn.ys.length-1]);
+            snake.head.dir = e.which;
         }
     });
 });
