@@ -1,27 +1,82 @@
 <!DOCTYPE html>
 <!-- index.html by Nicholas Tan -->
 <!-- my first website -->
-<canvas id="ctx" width="500" height="500" style="border:1px solid #000000;"></canvas>
+
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<div id='keypress_con'>
+<canvas id="ctx" width="512" height="512" style="border:1px solid #000000;"></canvas>
+</div>
 
 <script>
+
     var ctx = document.getElementById("ctx").getContext("2d");
+    ctx.fillStyle = 'pink';
     ctx.font = '30px Arial';
-    
-    var x = 10;
-    var y = 40;
-    var dx = 10;
-    var dy = 30;
+    ctx.globalAlpha = 0.5;
 
-for (var i = 1; i < 10; i++) {
-    x += i*10;
-    update();
-}
+    var WIDTH = 512;
+    var HEIGHT = 512;
 
+    var snake = {
+        head:{
+            x:WIDTH/16,
+            y:WIDTH/16,
+            dir:39, //right
+        },
+        tail:{
+            x:0,
+            y:0,
+            dir:39, //right
+        },
+        blockSize:WIDTH/16,
+        length:1,
+        turnQ:[],
+        countQ:[],
+    };
+
+    setInterval(update,500);
 
 function update(){
-    x += dx;
-    y += dy;
-    ctx.fillText('P',x,y);
+    
+    blockPos(snake.head);
+    
+    ctx.fillRect(snake.head.x,snake.head.y,snake.blockSize,snake.blockSize);
+    //ctx.clearRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
+    
+    //if(turning != 0){
+      //  turning--;
+        //if(turning == 0){
+          //  snake.tail.dir = snake.head.dir;
+        //}
+    //}
 }
+
+function blockPos(block){
+    switch(block.dir){
+        case 37: //left
+        block.x -= snake.blockSize;
+        break;
+        case 38: //up
+        block.y -= snake.blockSize;
+        break;
+        case 39: //right
+        block.x += snake.blockSize;
+        break;
+        case 40: //down
+        block.y += snake.blockSize;
+        break;
+    }
+}
+
+$(function(){
+    $('html').keydown(function(e){
+        if(e.which >= 37 && e.which <=40){
+            snake.head.dir = e.which;
+            snake.turnQ.push(e.which);
+            
+        }
+    });
+});
+
 
 </script>
