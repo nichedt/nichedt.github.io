@@ -19,39 +19,49 @@
 
     var snake = {
         head:{
-            x:WIDTH/16,
+            x:2*WIDTH/16,
             y:WIDTH/16,
             dir:39, //right
         },
         tail:{
             x:0,
-            y:0,
+            y:WIDTH/16,
             dir:39, //right
         },
         blockSize:WIDTH/16,
-        length:1,
-        turnQ:[],
-        countQ:[],
+        turn:{
+            q:[],
+            xs:[],
+            ys:[],
+        }
     };
 
+    ctx.fillRect(snake.head.x,snake.head.y,snake.blockSize,snake.blockSize);
+    ctx.fillRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
+    
     setInterval(update,500);
 
 function update(){
     
-    blockPos(snake.head);
-    
+    blockPosUpdate(snake.head);
     ctx.fillRect(snake.head.x,snake.head.y,snake.blockSize,snake.blockSize);
-    //ctx.clearRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
     
-    //if(turning != 0){
-      //  turning--;
-        //if(turning == 0){
-          //  snake.tail.dir = snake.head.dir;
-        //}
-    //}
+    ctx.clearRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
+    
+    blockPosUpdate(snake.tail);
+    
+    if(snake.turn.q.length != 0){
+        if( snake.turn.xs[0] == snake.tail.x &&
+            snake.turn.ys[0] == snake.tail.y ){
+            snake.tail.dir = snake.turn.q.shift();
+            snake.turn.xs.shift();
+            snake.turn.ys.shift();
+        }
+    }
+    
 }
 
-function blockPos(block){
+function blockPosUpdate(block){
     switch(block.dir){
         case 37: //left
         block.x -= snake.blockSize;
@@ -72,8 +82,9 @@ $(function(){
     $('html').keydown(function(e){
         if(e.which >= 37 && e.which <=40){
             snake.head.dir = e.which;
-            snake.turnQ.push(e.which);
-            
+            snake.turn.q.push(e.which);
+            snake.turn.xs.push(snake.head.x);
+            snake.turn.ys.push(snake.head.y);
         }
     });
 });
