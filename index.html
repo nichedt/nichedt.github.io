@@ -30,11 +30,7 @@
         },
         blockSize:WIDTH/16,
         borderSize:WIDTH/16/16,
-        turn:{
-            q:[],
-            xs:[],
-            ys:[],
-        }
+        turnq:[],
     };
 
     ctx.fillRect(   snake.head.x+snake.borderSize       ,
@@ -58,53 +54,89 @@ function update(){
     
     blockPosUpdate(snake.tail);
     
-    if(snake.turn.q.length != 0){
-        if( snake.turn.xs[0] == snake.tail.x &&
-            snake.turn.ys[0] == snake.tail.y ){
-            snake.tail.dir = snake.turn.q.shift();
-            snake.turn.xs.shift();
-            snake.turn.ys.shift();
+    if(snake.turnq.length > 0){
+        if( snake.turnq[0].x == snake.tail.x &&
+            snake.turnq[0].y == snake.tail.y ){
+            snake.tail.dir = snake.turnq.shift().dir;
         }
     }
     
-    if(isAlive(snake.head, snake.turn)){
+    if(isDead()){
        clearInterval(frame);
     }
     
 }
 
-function isAlive(block, turn){
+function isDead(){
     
-	if( block.x+snake.blockSize >= WIDTH    ||
-		block.x <= 0                        ||
-		block.y+snake.blockSize >= HEIGHT   ||
-		block.y <= 0                        ){
+	if( snake.head.x+snake.blockSize >= WIDTH    ||
+		snake.head.x <= 0                        ||
+		snake.head.y+snake.blockSize >= HEIGHT   ||
+		snake.head.y <= 0                        ){
 		return true;
 	}
-	
-	for(var i = 1; i < turn.q.length; i++){
 		
+	if(snake.turnq.length > 0){
+
 	}
+	for(var i = 1; i < snake.turnq.length; i++){
+		switch(snake.turnq[i].dir){
+		case 37: //left
+			if(snake.head.y == snake.turnq[i].y){
+				if(	snake.turnq[i-1].x <= snake.head.x	&&
+					snake.head.x <= snake.turnq[i].x	){
+					return true;
+				}
+			}
+			break;
+		case 38: //up
+			if(snake.head.x == snake.turnq[i].x){
+				if(	snake.turnq[i-1].y <= snake.head.y 	&&
+				   snake.head.y <= snake.turnq[i].y 	){
+					return true;
+				}
+			}
+			break;
+		case 39: //right
+			if(snake.head.y == snake.turnq[i].y){
+				if(	snake.turnq[i].x <= snake.head.x 	&&
+				   	snake.head.x <= snake.turnq[i-1].x 	){
+					return true;
+				}
+			}
+			break;
+		case 40: //down
+			if(snake.head.x == snake.turnq[i].x){
+				if(	snake.turnq[i].y <= snake.head.y 	&&
+				   	snake.head.y <= snake.turnq[i-1].y 	){
+					return true;
+				}
+			}
+			break;
+		}
+	}
+	
+	return false;
 }
 
-function collide(block, startCoord, endCoord){
+function collide(commonAxis, startCoord, endCoord){
 	
 }
 
 function blockPosUpdate(block){
     switch(block.dir){
-        case 37: //left
-            block.x -= snake.blockSize;
-            break;
-        case 38: //up
-            block.y -= snake.blockSize;
-            break;
-        case 39: //right
-            block.x += snake.blockSize;
-            break;
-        case 40: //down
-            block.y += snake.blockSize;
-            break;
+	case 37: //left
+		block.x -= snake.blockSize;
+		break;
+	case 38: //up
+		block.y -= snake.blockSize;
+		break;
+	case 39: //right
+		block.x += snake.blockSize;
+		break;
+	case 40: //down
+		block.y += snake.blockSize;
+		break;
     }
 }
 
@@ -114,12 +146,9 @@ $(function(){
             e.which+2 != snake.head.dir     && //not backwards
             e.which-2 != snake.head.dir     &&
             e.which   != snake.head.dir     ){ //not forwards
-            snake.turn.q.push(e.which);
-				  console.log(snake.turn.q[snake.turn.q.length-1]);
-            snake.turn.xs.push(snake.head.x);
-				  console.log(snake.turn.xs[snake.turn.xs.length-1]);
-            snake.turn.ys.push(snake.head.y);
-				  console.log(snake.turn.ys[snake.turn.ys.length-1]);
+			snake.turnq.push({	x:snake.head.x,
+							  	y:snake.head.y,
+							  	dir:e.which,	});
             snake.head.dir = e.which;
         }
     });
