@@ -2,7 +2,6 @@
 <!-- index.html by Nicholas Tan -->
 <!-- my first website -->
 
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <div id='keypress_con'>
 <canvas id="ctx" width="512" height="512" style="border:1px solid #000000;"></canvas>
 </div>
@@ -37,7 +36,6 @@
                     snake.head.y+snake.borderSize       ,
                     snake.blockSize-snake.borderSize    ,
                     snake.blockSize-snake.borderSize    );
-    ctx.fillRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
     
     var frame = setInterval(update,500);
     
@@ -57,7 +55,7 @@ function update(){
     if(snake.turnq.length > 0){
         if( snake.turnq[0].x == snake.tail.x &&
             snake.turnq[0].y == snake.tail.y ){
-            snake.tail.dir = snake.turnq.shift().dir;
+            snake.tail.dir = snake.turnq.shift().dir; // O(n) complexity
         }
     }
     
@@ -77,40 +75,49 @@ function isDead(){
 	}
 		
 	if(snake.turnq.length > 0){
-
-	}
-	for(var i = 1; i < snake.turnq.length; i++){
-		switch(snake.turnq[i].dir){
+		switch(snake.tail.dir){
 		case 37: //left
-			if(snake.head.y == snake.turnq[i].y){
-				if(	snake.turnq[i-1].x <= snake.head.x	&&
-					snake.head.x <= snake.turnq[i].x	){
-					return true;
-				}
+			if(collide("y", snake.tail, snake.turnq[0])){
+				return true;
 			}
 			break;
 		case 38: //up
-			if(snake.head.x == snake.turnq[i].x){
-				if(	snake.turnq[i-1].y <= snake.head.y 	&&
-				   snake.head.y <= snake.turnq[i].y 	){
-					return true;
-				}
+			if(collide("x", snake.tail, snake.turnq[0])){
+				return true;
 			}
 			break;
 		case 39: //right
-			if(snake.head.y == snake.turnq[i].y){
-				if(	snake.turnq[i].x <= snake.head.x 	&&
-				   	snake.head.x <= snake.turnq[i-1].x 	){
-					return true;
-				}
+			if(collide("y", snake.turnq[0], snake.tail)){
+				return true;
 			}
 			break;
 		case 40: //down
-			if(snake.head.x == snake.turnq[i].x){
-				if(	snake.turnq[i].y <= snake.head.y 	&&
-				   	snake.head.y <= snake.turnq[i-1].y 	){
-					return true;
-				}
+			if(collide("x", snake.turnq[0], snake.tail)){
+				return true;
+			}
+			break;
+		}
+	}
+	for(var i = 1; i < snake.turnq.length; i++){
+		switch(snake.turnq[i-1].dir){
+		case 37: //left
+			if(collide("y", snake.turnq[i-1], snake.turnq[i])){
+				return true;
+			}
+			break;
+		case 38: //up
+			if(collide("x", snake.turnq[i-1], snake.turnq[i])){
+				return true;
+			}
+			break;
+		case 39: //right
+			if(collide("y", snake.turnq[i], snake.turnq[i-1])){
+				return true;
+			}
+			break;
+		case 40: //down
+			if(collide("x", snake.turnq[i], snake.turnq[i-1])){
+				return true;
 			}
 			break;
 		}
@@ -119,8 +126,15 @@ function isDead(){
 	return false;
 }
 
-function collide(commonAxis, startCoord, endCoord){
-	
+function collide(cmnAx, startBlock, endBlock){
+	var offAx = (cmnAx == "y")?"x":"y";
+	if(snake.head[cmnAx] == startBlock[cmnAx]){
+		if(	startBlock[offAx] >= snake.head[offAx]	&&
+		   	snake.head[offAx] >= endBlock[offAx]	){
+			return true;
+		}
+	}
+	return false;
 }
 
 function blockPosUpdate(block){
@@ -140,7 +154,25 @@ function blockPosUpdate(block){
     }
 }
 
-$(function(){
+document.onkeydown = function(e) {
+	switch (e.keyCode) {
+	case 37: //left
+	case 38: //up
+	case 39: //right
+	case 40: //down
+		if(	e.keyCode+2 != snake.head.dir     && //not backwards
+			e.keyCode-2 != snake.head.dir     &&
+			e.keyCode   != snake.head.dir     ){ //not forwards
+			snake.turnq.push({	x:snake.head.x,
+							 	y:snake.head.y,
+							 	dir:e.keyCode,	});
+			snake.head.dir = e.keyCode;
+		}
+		break;
+	}
+};
+
+/*$(function(){
     $('html').keydown(function(e){
         if( e.which >= 37 && e.which <=40   && //arrowkeys
             e.which+2 != snake.head.dir     && //not backwards
@@ -152,7 +184,7 @@ $(function(){
             snake.head.dir = e.which;
         }
     });
-});
+});*/
 
 
 </script>
