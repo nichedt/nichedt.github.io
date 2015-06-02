@@ -7,20 +7,15 @@
     var ctx = document.getElementById("ctx").getContext("2d");
     ctx.font = '30px Arial';
     
-    var x = 50;
+    var x = 10;
     var y = 40;
     var dx = 10;
     var dy = 30;
 
-var person = {fname:"John", lname:"Doe", age:25};
-
-var text = "";
-var x;
-for (x in person) {
-    text += person[x];
+for (var i = 1; i < 10; i++) {
+    x += i*10;
+    update();
 }
-
-console.log(text);
 
 
 function update(){
