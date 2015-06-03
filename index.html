@@ -33,29 +33,40 @@
 		margin-bottom: 40px;
 		font-size: 4rem;
 		position: relative;
-		top: 50%;
+		top: 90%;
 		text-align: center;
 		-webkit-font-smoothing: antialiased;
 		font-smoothing: antialiased;
 		font-weight: 300;
 		color: white;
 	}
+	#chip {
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		text-align: center;
+		position: relative;
+		top: 60px;
+		color: white;
+		font-size: 3rem;
+	}
 	img {
-		
+		display: inline-block;
+		margin: 0 15px 0 15px !important;
 	}
 	ul {
 		width: 100%;
 		padding: 0;
 		margin: 0;
 		text-align: center;
-		position: relative;
-		top: 60%;
+		position: fixed;
+		top: 30px;
 		color: white;
 		font-size: 3rem;
 	}
 	li {
 		display: inline-block;
-		margin: 0 15px 0 15px !important;
+		margin: 0 80px 0 80px !important;
 	}
 	.circle {
 		border-radius: 50%;
@@ -93,9 +104,6 @@
 		vertical-align: middle;
 		height: 100%;
 	}
-	#chip {
-		
-	}
 	#wrapper {
 		width: 80%;
 		margin: 0 auto;
@@ -117,24 +125,32 @@
 	<canvas id="ctx" style="position:fixed; top:0;left:0"></canvas>
 	<div id="top">
 		<div id="top-content">
+			<ul>
+				<a href="home/games/snake.html">
+					<li class="circle" id="pacman">
+						&nbsp; <!-- games -->
+					</li>
+				</a>
+				<a href="home/documents/resume.pdf">
+					<li class="circle" id="Re">
+						Nt
+					</li>
+				</a>
+				<a href="home/documents/resume.pdf">
+					<li class="circle" id="Re">
+						Ré
+					</li>
+				</a>
+				<a href="home/documents/resume.pdf">
+					<li class="circle" id="Re">
+						&nbsp;<!-- github -->
+					</li>
+				</a>
+			</ul>
 			<h1 id="title">Rise to I<sup>2</sup>R</h1>
-			<ul>
-				<li><img src="home/images/chip.png" alt="chip"></li>
-			</ul>
-			<ul>
-			<li class="caption" id="site-caption">Old site</li>
-			<a href="home/games/snake.html">
-				<li class="circle" id="pacman">
-					&nbsp;
-				</li>
-			</a>
-			<a href="home/documents/resume.pdf">
-				<li class="circle" id="Re">
-					Ré
-				</li>
-			</a>
-			<li class="caption" id="re-caption">Resume</li>
-			</ul>
+			<div id="chip">
+				<img src="home/images/chip.png" width=60 height=60>
+			</div>
 		</div>
 	</div>
 </body>
@@ -146,6 +162,8 @@ function draw() {
 	var HEIGHT = window.innerHeight;
 	ctx.canvas.width  = WIDTH;
 	ctx.canvas.height = HEIGHT;
+	
+	
 
 }
 </script>
