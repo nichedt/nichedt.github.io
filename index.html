@@ -1,229 +1,152 @@
 <!DOCTYPE html>
 <!-- index.html by Nicholas Tan -->
-<!-- my first website -->
+<!-- front page -->
 
-<canvas id="ctx" width="512" height="512" style="border:1px solid #000000;"></canvas>
-
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Nicholas Tan</title>
+	<style>
+		@font-face {
+			font-family: sanfranUL;
+			src: url(home/fonts/sanfran/SanFranciscoDisplay-Ultralight.otf);
+		}
+	body {
+		width: 100%;
+		height: 100%;
+		margin: 0px;
+		padding: 0;
+		font-family: sanfranUL;
+	}
+	#top {
+		height: 100vh;
+		width: 100%;
+		background: radial-gradient(#5C4CEB,#1E1D1C);
+		display: table;
+	}
+	#top #top-content {
+		display: table-cell;
+		vertical-align: middle;
+	}
+	#top #title {
+		margin-bottom: 40px;
+		font-size: 4rem;
+		position: relative;
+		top: 50%;
+		text-align: center;
+		-webkit-font-smoothing: antialiased;
+		font-smoothing: antialiased;
+		font-weight: 300;
+		color: white;
+	}
+	img {
+		
+	}
+	ul {
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		text-align: center;
+		position: relative;
+		top: 60%;
+		color: white;
+		font-size: 3rem;
+	}
+	li {
+		display: inline-block;
+		margin: 0 15px 0 15px !important;
+	}
+	.circle {
+		border-radius: 50%;
+		width: 70px;
+		height: 70px;
+		padding: 8px;
+		border: 2px solid white;
+		line-height: 140%;
+	}
+	.circle:hover {
+		color: black;
+		background-color: white;
+	}
+	.caption {
+		display: inline;
+		color: transparent;
+		font-size: 1.3rem;
+		margin: 0px !important;
+		line-height: 120%;
+	}
+	a {
+		text-decoration: none;
+		color: white;
+	}
+	#about {
+		background-color: #1E1D1C;
+		color: white;
+	}
+	#about p {
+		margin: 0;
+		font-size: 2rem;
+		display: inline;
+		text-align: left;
+		float: left;
+		vertical-align: middle;
+		height: 100%;
+	}
+	#chip {
+		
+	}
+	#wrapper {
+		width: 80%;
+		margin: 0 auto;
+		text-align: center;
+	}
+	#wrapper img {
+		margin: 0 auto;
+		display: inline;
+		height: 250px;
+		box-shadow: 0px 0px 8px #1E1D1C;
+		-webkit-box-shadow: 0px 0px 8px #1E1D1C;
+		-ms-box-shadow: 0px 0px 8px #1E1D1C;
+		-o-box-shadow: 0px 0px 8px #1E1D1C;
+		border: 2px solid white;
+	}
+	</style>
+</head>
+<body>
+	<canvas id="ctx" style="position:fixed; top:0;left:0"></canvas>
+	<div id="top">
+		<div id="top-content">
+			<h1 id="title">Rise to I<sup>2</sup>R</h1>
+			<ul>
+				<li><img src="home/images/chip.png" alt="chip"></li>
+			</ul>
+			<ul>
+			<li class="caption" id="site-caption">Old site</li>
+			<a href="home/games/snake.html">
+				<li class="circle" id="pacman">
+					&nbsp;
+				</li>
+			</a>
+			<a href="home/documents/resume.pdf">
+				<li class="circle" id="Re">
+					Ré
+				</li>
+			</a>
+			<li class="caption" id="re-caption">Resume</li>
+			</ul>
+		</div>
+	</div>
+</body>
 <script>
+	//setInterval(draw,16); // ~60 fps
+function draw() {
+	var ctx = document.getElementById("ctx").getContext("2d");
+	var WIDTH = window.innerWidth;
+	var HEIGHT = window.innerHeight;
+	ctx.canvas.width  = WIDTH;
+	ctx.canvas.height = HEIGHT;
 
-	ctx = document.getElementById("ctx").getContext("2d");
-	ctx.fillStyle = 'pink';
-	ctx.globalAlpha = 0.5;
-
-    var WIDTH = 512;
-    var HEIGHT = 512;
-
-	var length0 = 8;
-	var x0 = WIDTH/16;
-	var y0 = WIDTH/16;
-
-    var snake = {
-		color:'pink',
-        head:{
-            x:length0*x0,
-            y:y0,
-            dir:39, //right
-        },
-        tail:{
-            x:x0,
-            y:y0,
-            dir:39, //right
-        },
-        blockSize:WIDTH/16,
-        borderSize:WIDTH/16/16,
-        turnq:[],
-    };
-	ctx.fillStyle = 'red'; //initial "worm hole"
-    ctx.fillRect( 			snake.head.x+snake.borderSize       ,
-                    		snake.head.y+snake.borderSize       ,
-                    		snake.blockSize-snake.borderSize    ,
-                    		snake.blockSize-snake.borderSize    );
-	ctx.fillStyle = snake.color;
-	
-	var food = {
-		x:snake.head.y,
-		y:snake.head.x,
-	};
-	spawnFood();
-
-    var frame = setInterval(update,200);
-    
-//function definitions
-function update(){
-
-	if(snake.turnq.length > 0){
-		snake.head.dir = snake.turnq[snake.turnq.length-1].dir;
-	}
-	
-    blockPosUpdate(snake.head);
-	
-	if(snake.head.x != food.x || snake.head.y != food.y){
-		ctx.clearRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
-		blockPosUpdate(snake.tail);
-	}else{
-		spawnFood();
-	}
-	
-	ctx.fillRect(   		snake.head.x+snake.borderSize       ,
-				 			snake.head.y+snake.borderSize       ,
-				 			snake.blockSize-snake.borderSize    ,
-				 			snake.blockSize-snake.borderSize    );
-	drawEyes();
-	
-    if(snake.turnq.length > 0){
-        if( snake.turnq[0].x == snake.tail.x &&
-            snake.turnq[0].y == snake.tail.y ){
-            snake.tail.dir = snake.turnq.shift().dir; // O(n) complexity
-        }
-    }
-    
-    if(isDead()){
-       clearInterval(frame);
-	   console.log("game over!");
-    }
-    
 }
-
-function spawnFood(){
-	do{
-		food.x = WIDTH/16*Math.floor(Math.random() * (16));
-		food.y = WIDTH/16*Math.floor(Math.random() * (16));
-	}while(bodyCollide(food));
-	ctx.beginPath();
-	ctx.arc(	food.x+(snake.borderSize+snake.blockSize)/2		,
-				food.y+(snake.borderSize+snake.blockSize)/2		,
-				(snake.blockSize-4*snake.borderSize)/2			,
-				0												,
-				2*Math.PI										);
-	ctx.stroke();
-}
-
-function drawEyes(){
-	
-}
-
-function isDead(){
-	
-	//wall collisions
-	if( snake.head.x+snake.blockSize > WIDTH    ||
-		snake.head.x+snake.blockSize <= 0       ||
-		snake.head.y+snake.blockSize > HEIGHT   ||
-		snake.head.y+snake.blockSize <= 0       ){
-		return true;
-	}
-
-	return bodyCollide(snake.head);
-}
-
-function bodyCollide(block){
-	if(snake.turnq.length > 0){
-		switch(snake.tail.dir){
-			case 37: //left
-			if(headIntersect(block, "y", snake.tail, snake.turnq[0])){
-				return true;
-			}
-			break;
-			case 38: //up
-			if(headIntersect(block, "x", snake.tail, snake.turnq[0])){
-				return true;
-			}
-			break;
-			case 39: //right
-			if(headIntersect(block, "y", snake.turnq[0], snake.tail)){
-				return true;
-			}
-			break;
-			case 40: //down
-			if(headIntersect(block, "x", snake.turnq[0], snake.tail)){
-				return true;
-			}
-			break;
-		}
-	}
-	for(var i = 1; i < snake.turnq.length; i++){
-		switch(snake.turnq[i-1].dir){
-			case 37: //left
-			if(headIntersect(block, "y", snake.turnq[i-1], snake.turnq[i])){
-				return true;
-			}
-			break;
-			case 38: //up
-			if(headIntersect(block, "x", snake.turnq[i-1], snake.turnq[i])){
-				return true;
-			}
-			break;
-			case 39: //right
-			if(headIntersect(block, "y", snake.turnq[i], snake.turnq[i-1])){
-				return true;
-			}
-			break;
-			case 40: //down
-			if(headIntersect(block, "x", snake.turnq[i], snake.turnq[i-1])){
-				return true;
-			}
-			break;
-		}
-	}
-	
-	return false;
-}
-
-function headIntersect(block, cmnAx, startBlock, endBlock){
-	var offAx = (cmnAx == "y")?"x":"y";
-	if(block[cmnAx] == startBlock[cmnAx]){
-		if(	startBlock[offAx] >= block[offAx]	&&
-		   	block[offAx] >= endBlock[offAx]		){
-			return true;
-		}
-	}
-	return false;
-}
-
-function blockPosUpdate(block){
-    switch(block.dir){
-	case 37: //left
-		block.x -= snake.blockSize;
-		break;
-	case 38: //up
-		block.y -= snake.blockSize;
-		break;
-	case 39: //right
-		block.x += snake.blockSize;
-		break;
-	case 40: //down
-		block.y += snake.blockSize;
-		break;
-    }
-}
-
-document.onkeydown = function(e) {
-	switch (e.keyCode) {
-	case 37: //left
-	case 38: //up
-	case 39: //right
-	case 40: //down
-		if(	(e.keyCode % 2) != (snake.head.dir % 2) ){ //change direction
-			snake.turnq.push({	x:snake.head.x,
-							 	y:snake.head.y,
-							 	dir:e.keyCode,	});
-		}
-		break;
-	}
-};
-
-/*$(function(){
-    $('html').keydown(function(e){
-        if( e.which >= 37 && e.which <=40   && //arrowkeys
-            e.which+2 != snake.head.dir     && //not backwards
-            e.which-2 != snake.head.dir     &&
-            e.which   != snake.head.dir     ){ //not forwards
-			snake.turnq.push({	x:snake.head.x,
-							  	y:snake.head.y,
-							  	dir:e.which,	});
-            snake.head.dir = e.which;
-        }
-    });
-});*/
-
-
 </script>
+</html>
