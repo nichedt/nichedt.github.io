@@ -71,7 +71,7 @@
 	}
 	li {
 		display: inline-block;
-		margin: 0 80px 0 80px !important;
+		margin: 0 40px 0 40px !important;
 	}
 	.circle {
 		border-radius: 50%;
@@ -86,11 +86,17 @@
 		background-color: white;
 	}
 	.caption {
+		caption-side: bottom;
 		display: inline;
-		color: transparent;
 		font-size: 1.3rem;
 		margin: 0px !important;
 		line-height: 120%;
+	}
+	.noColor {
+		color: transparent;
+	}
+	.hasColor {
+		color: white;
 	}
 	a {
 		text-decoration: none;
@@ -131,26 +137,49 @@
 	<div id="top">
 		<div id="top-content">
 			<ul>
+				<span class="noColor" id="gameColor">
+					<li class="caption" id="gameCaption">
+						Games
+					</li>
+				</span>
 				<a href="home/games/snake.html">
-					<li class="circle" id="pacman">
-						&nbsp; <!-- games -->
+					<li class="circle" id="gameCircle">
+						<svg width="40" height="40">
+							<path d="M20,20 l 20,-20
+							a5,5 -3 0,1 5,-2 l 20,-20"/>
+						</svg>
 					</li>
 				</a>
+				<span class="noColor" id="aboutColor">
+					<li class="caption" id="aboutCaption">
+						About me
+					</li>
+				</span>
 				<a href="home/documents/resume.pdf">
-					<li class="circle" id="Re">
+					<li class="circle" id="aboutCircle">
 						Nt
 					</li>
 				</a>
 				<a href="home/documents/resume.pdf">
-					<li class="circle" id="Re">
+					<li class="circle" id="resumeCircle">
 						Ré
 					</li>
 				</a>
+				<span class="noColor" id="resumeColor">
+					<li class="caption" id="resumeCaption">
+						Résumé
+					</li>
+				</span
 				<a href="home/documents/resume.pdf">
-					<li class="circle" id="Re">
+					<li class="circle" id="blogCircle">
 						&nbsp;<!-- blog -->
 					</li>
 				</a>
+				<span class="noColor" id="blogColor">
+					<li class="caption" id="blogCaption">
+						Personal blog
+					</li>
+				</span>
 			</ul>
 			<h1 id="title">Rise to I<sup>2</sup>R</h1>
 			<div id="chip">
@@ -158,22 +187,22 @@
 				<svg width="70" height="70">
 					<rect x="5" y="5" rx="10" ry="10" width="60" height="60"/>
 					<circle cx="15" cy="15" r="2"/>
-					<rect x="14" y="1" width="5" height="4"/>
-					<rect x="26" y="1" width="5" height="4"/>
-					<rect x="39" y="1" width="5" height="4"/>
-					<rect x="51" y="1" width="5" height="4"/>
-					<rect x="14" y="65" width="5" height="4"/>
-					<rect x="26" y="65" width="5" height="4"/>
-					<rect x="39" y="65" width="5" height="4"/>
-					<rect x="51" y="65" width="5" height="4"/>
-					<rect y="14" x="1" width="4" height="5"/>
-					<rect y="26" x="1" width="4" height="5"/>
-					<rect y="39" x="1" width="4" height="5"/>
-					<rect y="51" x="1" width="4" height="5"/>
-					<rect y="14" x="65" width="4" height="5"/>
-					<rect y="26" x="65" width="4" height="5"/>
-					<rect y="39" x="65" width="4" height="5"/>
-					<rect y="51" x="65" width="4" height="5"/>
+					<rect x="14" y="1" width="5" height= "3"/>
+					<rect x="26" y="1" width="5" height= "3"/>
+					<rect x="39" y="1" width="5" height= "3"/>
+					<rect x="51" y="1" width="5" height= "3"/>
+					<rect x="14" y="65" width="5" height= "3"/>
+					<rect x="26" y="65" width="5" height= "3"/>
+					<rect x="39" y="65" width="5" height= "3"/>
+					<rect x="51" y="65" width="5" height= "3"/>
+					<rect y="14" x="1" width= "3" height="5"/>
+					<rect y="26" x="1" width= "3" height="5"/>
+					<rect y="39" x="1" width= "3" height="5"/>
+					<rect y="51" x="1" width= "3" height="5"/>
+					<rect y="14" x="65" width= "3" height="5"/>
+					<rect y="26" x="65" width= "3" height="5"/>
+					<rect y="39" x="65" width= "3" height="5"/>
+					<rect y="51" x="65" width= "3" height="5"/>
 				</svg>
 			</div>
 		</div>
@@ -182,97 +211,40 @@
 <script>
 
 	var ctx = document.getElementById("ctx").getContext("2d");
-	
+
 	//setInterval(draw,16);
 	draw();
+
+	document.getElementById("gameCircle").onmouseover = function() {
+		document.getElementById("gameColor").className = 'hasColor';
+	};
+	document.getElementById("gameCircle").onmouseout = function() {
+		document.getElementById("gameColor").className = 'noColor';
+	};
+	document.getElementById("aboutCircle").onmouseover = function() {
+		document.getElementById("aboutColor").className = 'hasColor';
+	};
+	document.getElementById("aboutCircle").onmouseout = function() {
+		document.getElementById("aboutColor").className = 'noColor';
+	};
+	document.getElementById("resumeCircle").onmouseover = function() {
+		document.getElementById("resumeColor").className = 'hasColor';
+	};
+	document.getElementById("resumeCircle").onmouseout = function() {
+		document.getElementById("resumeColor").className = 'noColor';
+	};
+	document.getElementById("blogCircle").onmouseover = function() {
+		document.getElementById("blogColor").className = 'hasColor';
+	};
+	document.getElementById("blogCircle").onmouseout = function() {
+		document.getElementById("blogColor").className = 'noColor';
+	};
 
 function draw(){
 	var WIDTH = window.innerWidth;
 	var HEIGHT = window.innerHeight;
 	ctx.canvas.width  = WIDTH;
 	ctx.canvas.height = HEIGHT;
-	
-	var chip = {
-		img:document.getElementById("chip").getContext("2d");
-		//x: //WIDTH/2,
-		//y: //HEIGHT*3/4,
-		width:60,
-		height:60,
-		corner:8,
-		pinSize:5,
-	};
 }
-
-/*function drawChip(chip, ctx){
-	//draw square
-	ctx.beginPath();
-	ctx.moveTo(chip.x-chip.width/2,chip.y-chip.height/2);
-	ctx.lineTo(chip.x+chip.width/2,chip.y-chip.height/2);
-	ctx.lineTo(chip.x+chip.width/2,chip.y+chip.height/2);
-	ctx.lineTo(chip.x-chip.width/2,chip.y+chip.height/2);
-	ctx.lineTo(chip.x-chip.width/2,chip.y-chip.height/2);
-	ctx.lineWidth = 1.5;
-	ctx.strokeStyle = '#ffffff';
-	ctx.stroke();
-	//round corners
-	ctx.clearRect(	chip.x+chip.width/2-chip.corner,chip.y-chip.height/2-chip.corner,
-					2*chip.corner,2*chip.corner);
-	ctx.clearRect(	chip.x+chip.width/2-chip.corner,chip.y+chip.height/2-chip.corner,
-					2*chip.corner,2*chip.corner);
-	ctx.clearRect(	chip.x-chip.width/2-chip.corner,chip.y+chip.height/2-chip.corner,
-					2*chip.corner,2*chip.corner);
-	ctx.clearRect(	chip.x-chip.width/2-chip.corner,chip.y-chip.height/2-chip.corner,
-					2*chip.corner,2*chip.corner);
-	ctx.beginPath();
-	ctx.arc(	chip.x+chip.width/2-chip.corner,chip.y-chip.height/2+chip.corner,
-				chip.corner,Math.PI+Math.PI/2,Math.PI*2);
-	ctx.stroke();
-	ctx.beginPath();
-	ctx.arc(	chip.x+chip.width/2-chip.corner,chip.y+chip.height/2-chip.corner,
-				chip.corner,0,Math.PI/2);
-	ctx.stroke();
-	ctx.beginPath();
-	ctx.arc(	chip.x-chip.width/2+chip.corner,chip.y+chip.height/2-chip.corner,
-				chip.corner,Math.PI/2,Math.PI);
-	ctx.stroke();
-	ctx.beginPath();
-	ctx.arc(	chip.x-chip.width/2+chip.corner,chip.y-chip.height/2+chip.corner,
-				chip.corner,Math.PI,Math.PI+Math.PI/2);
-	ctx.stroke();
-	//draw pins
-	var xpos = chip.x-chip.width/2+chip.corner;
-	var ypos = chip.y-chip.height/2+chip.corner;
-	var xSpace = (chip.width-4*chip.pinSize-2*chip.corner)/3;
-	var ySpace = (chip.height-4*chip.pinSize-2*chip.corner)/3;
-	for(var i=0; i<4; i++){
-		ctx.moveTo(xpos,chip.y-chip.height/2);
-		ctx.lineTo(xpos,chip.y-chip.height/2-chip.pinSize);
-		ctx.lineTo(xpos+chip.pinSize,chip.y-chip.height/2-chip.pinSize);
-		ctx.lineTo(xpos+chip.pinSize,chip.y-chip.height/2);
-		ctx.stroke();
-		ctx.moveTo(xpos,chip.y+chip.height/2);
-		ctx.lineTo(xpos,chip.y+chip.height/2+chip.pinSize);
-		ctx.lineTo(xpos+chip.pinSize,chip.y+chip.height/2+chip.pinSize);
-		ctx.lineTo(xpos+chip.pinSize,chip.y+chip.height/2);
-		ctx.stroke();
-		ctx.moveTo(chip.x-chip.width/2,ypos);
-		ctx.lineTo(chip.x-chip.width/2-chip.pinSize,ypos);
-		ctx.lineTo(chip.x-chip.width/2-chip.pinSize,ypos+chip.pinSize);
-		ctx.lineTo(chip.x-chip.width/2,ypos+chip.pinSize);
-		ctx.stroke();
-		ctx.moveTo(chip.x+chip.width/2,ypos);
-		ctx.lineTo(chip.x+chip.width/2+chip.pinSize,ypos);
-		ctx.lineTo(chip.x+chip.width/2+chip.pinSize,ypos+chip.pinSize);
-		ctx.lineTo(chip.x+chip.width/2,ypos+chip.pinSize);
-		ctx.stroke();
-		xpos += chip.pinSize + xSpace;
-		ypos += chip.pinSize + ySpace;
-	}
-	//corner marking
-	ctx.beginPath();
-	ctx.arc(	chip.x-chip.width/2+1.5*chip.corner,chip.y-chip.height/2+1.5*chip.corner,
-				chip.corner/2,0,Math.PI*2);
-	ctx.stroke();
-}*/
 </script>
 </html>
