@@ -46,7 +46,7 @@
 		margin: 0;
 		text-align: center;
 		position: relative;
-		top: 60px;
+		top: 100px;
 		color: white;
 		font-size: 3rem;
 	}
@@ -149,22 +149,107 @@
 			</ul>
 			<h1 id="title">Rise to I<sup>2</sup>R</h1>
 			<div id="chip">
-				<img src="home/images/chip.png" width=60 height=60>
+				<img src="home/images/chip.png" width=70 height=70>
 			</div>
 		</div>
 	</div>
 </body>
 <script>
-	//setInterval(draw,16); // ~60 fps
-function draw() {
+
 	var ctx = document.getElementById("ctx").getContext("2d");
+	
+	//setInterval(draw,16);
+	//draw();
+
+function draw(){
 	var WIDTH = window.innerWidth;
 	var HEIGHT = window.innerHeight;
 	ctx.canvas.width  = WIDTH;
 	ctx.canvas.height = HEIGHT;
 	
+	var chip = {
+		img:document.getElementById("chip").getContext("2d");
+		x:img. //WIDTH/2,
+		y: //HEIGHT*3/4,
+		width:60,
+		height:60,
+		corner:8,
+		pinSize:5,
+	};
 	
+	//drawChip(chip, ctx);
+}
 
+function drawChip(chip, ctx){
+	//draw square
+	ctx.beginPath();
+	ctx.moveTo(chip.x-chip.width/2,chip.y-chip.height/2);
+	ctx.lineTo(chip.x+chip.width/2,chip.y-chip.height/2);
+	ctx.lineTo(chip.x+chip.width/2,chip.y+chip.height/2);
+	ctx.lineTo(chip.x-chip.width/2,chip.y+chip.height/2);
+	ctx.lineTo(chip.x-chip.width/2,chip.y-chip.height/2);
+	ctx.lineWidth = 1.5;
+	ctx.strokeStyle = '#ffffff';
+	ctx.stroke();
+	//round corners
+	ctx.clearRect(	chip.x+chip.width/2-chip.corner,chip.y-chip.height/2-chip.corner,
+					2*chip.corner,2*chip.corner);
+	ctx.clearRect(	chip.x+chip.width/2-chip.corner,chip.y+chip.height/2-chip.corner,
+					2*chip.corner,2*chip.corner);
+	ctx.clearRect(	chip.x-chip.width/2-chip.corner,chip.y+chip.height/2-chip.corner,
+					2*chip.corner,2*chip.corner);
+	ctx.clearRect(	chip.x-chip.width/2-chip.corner,chip.y-chip.height/2-chip.corner,
+					2*chip.corner,2*chip.corner);
+	ctx.beginPath();
+	ctx.arc(	chip.x+chip.width/2-chip.corner,chip.y-chip.height/2+chip.corner,
+				chip.corner,Math.PI+Math.PI/2,Math.PI*2);
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.arc(	chip.x+chip.width/2-chip.corner,chip.y+chip.height/2-chip.corner,
+				chip.corner,0,Math.PI/2);
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.arc(	chip.x-chip.width/2+chip.corner,chip.y+chip.height/2-chip.corner,
+				chip.corner,Math.PI/2,Math.PI);
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.arc(	chip.x-chip.width/2+chip.corner,chip.y-chip.height/2+chip.corner,
+				chip.corner,Math.PI,Math.PI+Math.PI/2);
+	ctx.stroke();
+	//draw pins
+	var xpos = chip.x-chip.width/2+chip.corner;
+	var ypos = chip.y-chip.height/2+chip.corner;
+	var xSpace = (chip.width-4*chip.pinSize-2*chip.corner)/3;
+	var ySpace = (chip.height-4*chip.pinSize-2*chip.corner)/3;
+	for(var i=0; i<4; i++){
+		ctx.moveTo(xpos,chip.y-chip.height/2);
+		ctx.lineTo(xpos,chip.y-chip.height/2-chip.pinSize);
+		ctx.lineTo(xpos+chip.pinSize,chip.y-chip.height/2-chip.pinSize);
+		ctx.lineTo(xpos+chip.pinSize,chip.y-chip.height/2);
+		ctx.stroke();
+		ctx.moveTo(xpos,chip.y+chip.height/2);
+		ctx.lineTo(xpos,chip.y+chip.height/2+chip.pinSize);
+		ctx.lineTo(xpos+chip.pinSize,chip.y+chip.height/2+chip.pinSize);
+		ctx.lineTo(xpos+chip.pinSize,chip.y+chip.height/2);
+		ctx.stroke();
+		ctx.moveTo(chip.x-chip.width/2,ypos);
+		ctx.lineTo(chip.x-chip.width/2-chip.pinSize,ypos);
+		ctx.lineTo(chip.x-chip.width/2-chip.pinSize,ypos+chip.pinSize);
+		ctx.lineTo(chip.x-chip.width/2,ypos+chip.pinSize);
+		ctx.stroke();
+		ctx.moveTo(chip.x+chip.width/2,ypos);
+		ctx.lineTo(chip.x+chip.width/2+chip.pinSize,ypos);
+		ctx.lineTo(chip.x+chip.width/2+chip.pinSize,ypos+chip.pinSize);
+		ctx.lineTo(chip.x+chip.width/2,ypos+chip.pinSize);
+		ctx.stroke();
+		xpos += chip.pinSize + xSpace;
+		ypos += chip.pinSize + ySpace;
+	}
+	//corner marking
+	ctx.beginPath();
+	ctx.arc(	chip.x-chip.width/2+1.5*chip.corner,chip.y-chip.height/2+1.5*chip.corner,
+				chip.corner/2,0,Math.PI*2);
+	ctx.stroke();
 }
 </script>
 </html>
