@@ -94,11 +94,17 @@
 	.hasColor {
 		color: white;
 	}
-	.wireOff {
+	.pinOff {
 		fill-opacity: 0;
 	}
-	.wireOn {
+	.pinOn {
 		fill-opacity: 1;
+	}
+	.wireOn {
+		
+	}
+	.wireOff {
+		
 	}
 	a {
 		text-decoration: none;
@@ -164,25 +170,25 @@
 			<h1 id="title">Rise to I<sup>2</sup>R</h1>
 			<div id="chip">
 <!--				<img src="home/images/chip.png" width=70 height=70>-->
-				<svg width="70" height="70">
-					<rect id="chip-body" x="5" y="5" rx="10" ry="10" width="60" height="60"/>
-					<circle cx="15" cy="15" r="2"/>
-					<rect class="wireOff" id="pin16" x="14" y="1" width="5" height= "3"/>
-					<rect class="wireOff" id="pin15" x="26" y="1" width="5" height= "3"/>
-					<rect class="wireOff" id="pin14" x="39" y="1" width="5" height= "3"/>
-					<rect class="wireOff" id="pin13" x="51" y="1" width="5" height= "3"/>
-					<rect class="wireOff" id="pin5" x="14" y="65" width="5" height= "3"/>
-					<rect class="wireOff" id="pin6" x="26" y="65" width="5" height= "3"/>
-					<rect class="wireOff" id="pin7" x="39" y="65" width="5" height= "3"/>
-					<rect class="wireOff" id="pin8" x="51" y="65" width="5" height= "3"/>
-					<rect class="wireOff" id="pin1" y="14" x="1" width= "3" height="5"/>
-					<rect class="wireOff" id="pin2" y="26" x="1" width= "3" height="5"/>
-					<rect class="wireOff" id="pin3" y="39" x="1" width= "3" height="5"/>
-					<rect class="wireOff" id="pin4" y="51" x="1" width= "3" height="5"/>
-					<rect class="wireOff" id="pin12" y="14" x="65" width= "3" height="5"/>
-					<rect class="wireOff" id="pin11" y="26" x="65" width= "3" height="5"/>
-					<rect class="wireOff" id="pin10" y="39" x="65" width= "3" height="5"/>
-					<rect class="wireOff" id="pin9" y="51" x="65" width= "3" height="5"/>
+				<svg width="90" height="90">
+					<rect id="chip-body" x="15" y="15" rx="10" ry="10" width="60" height="60"/>
+					<circle cx="25" cy="25" r="2"/>
+					<rect class="pinOff" id="pin16" x="24" y="11" width="5" height= "3"/>
+					<rect class="pinOff" id="pin15" x="36" y="11" width="5" height= "3"/>
+					<rect class="pinOff" id="pin14" x="49" y="11" width="5" height= "3"/>
+					<rect class="pinOff" id="pin13" x="61" y="11" width="5" height= "3"/>
+					<rect class="pinOff" id="pin5" x="24" y="75" width="5" height= "3"/>
+					<rect class="pinOff" id="pin6" x="36" y="75" width="5" height= "3"/>
+					<rect class="pinOff" id="pin7" x="49" y="75" width="5" height= "3"/>
+					<rect class="pinOff" id="pin8" x="61" y="75" width="5" height= "3"/>
+					<rect class="pinOff" id="pin1" y="24" x="11" width= "3" height="5"/>
+					<rect class="pinOff" id="pin2" y="36" x="11" width= "3" height="5"/>
+					<rect class="pinOff" id="pin3" y="49" x="11" width= "3" height="5"/>
+					<rect class="pinOff" id="pin4" y="61" x="11" width= "3" height="5"/>
+					<rect class="pinOff" id="pin12" y="24" x="75" width= "3" height="5"/>
+					<rect class="pinOff" id="pin11" y="36" x="75" width= "3" height="5"/>
+					<rect class="pinOff" id="pin10" y="49" x="75" width= "3" height="5"/>
+					<rect class="pinOff" id="pin9" y="61" x="75" width= "3" height="5"/>
 				</svg>
 			</div>
 		</div>
@@ -193,35 +199,35 @@
 	//disappearing and reappearing captions
 	document.getElementById("gameCircle").onmouseover = function() {
 		document.getElementById("gameColor").className = 'hasColor';
-		document.getElementById("pin8").setAttribute('class','wireOn');;
+		document.getElementById("pin8").setAttribute('class','pinOn');;
 	};
 	document.getElementById("gameCircle").onmouseout = function() {
 		document.getElementById("gameColor").className = 'noColor';
-		document.getElementById("pin8").setAttribute('class','wireOff');
+		document.getElementById("pin8").setAttribute('class','pinOff');
 	};
 	document.getElementById("aboutCircle").onmouseover = function() {
 		document.getElementById("aboutColor").className = 'hasColor';
-		document.getElementById("pin15").setAttribute('class','wireOn');;
+		document.getElementById("pin15").setAttribute('class','pinOn');;
 	};
 	document.getElementById("aboutCircle").onmouseout = function() {
 		document.getElementById("aboutColor").className = 'noColor';
-		document.getElementById("pin15").setAttribute('class','wireOff');
+		document.getElementById("pin15").setAttribute('class','pinOff');
 	};
 	document.getElementById("resumeCircle").onmouseover = function() {
 		document.getElementById("resumeColor").className = 'hasColor';
-		document.getElementById("pin2").setAttribute('class','wireOn');;
+		document.getElementById("pin2").setAttribute('class','pinOn');;
 	};
 	document.getElementById("resumeCircle").onmouseout = function() {
 		document.getElementById("resumeColor").className = 'noColor';
-		document.getElementById("pin2").setAttribute('class','wireOff');
+		document.getElementById("pin2").setAttribute('class','pinOff');
 	};
 	document.getElementById("blogCircle").onmouseover = function() {
 		document.getElementById("blogColor").className = 'hasColor';
-		document.getElementById("pin7").setAttribute('class','wireOn');
+		document.getElementById("pin7").setAttribute('class','pinOn');
 	};
 	document.getElementById("blogCircle").onmouseout = function() {
 		document.getElementById("blogColor").className = 'noColor';
-		document.getElementById("pin7").setAttribute('class','wireOff');
+		document.getElementById("pin7").setAttribute('class','pinOff');
 	};
 
 	/*var ctx = document.getElementById("ctx").getContext("2d");
