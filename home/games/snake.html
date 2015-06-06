@@ -83,6 +83,7 @@ function update(){
 	   console.log("game over!");
 	   return;
 	 }
+	food.taken[snake.head.y/snake.blockSize][snake.head.x/snake.blockSize] = 1; //set bit
 	
 	if(snake.head.x != food.x || snake.head.y != food.y){
 		ctx.clearRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
@@ -97,7 +98,6 @@ function update(){
 				 snake.head.y+snake.borderSize       ,
 				 snake.blockSize-snake.borderSize    ,
 				 snake.blockSize-snake.borderSize    );
-	food.taken[snake.head.y/snake.blockSize][snake.head.x/snake.blockSize] = 1; //set bit
 	
 	 if(snake.turnq.length > 0){
 		 if( snake.turnq[0].x == snake.tail.x &&
@@ -105,7 +105,6 @@ function update(){
 			 snake.tail.dir = snake.turnq.shift().dir; // O(n) complexity
 		 }
 	 }
- 
 }
 function spawnFood(){
 	var pos = Math.floor(Math.random() * (16*16-snake.length));
