@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <!-- snake.html by Nicholas Tan -->
 <!-- snake game -->
@@ -5,46 +7,65 @@
 <html>
 	<canvas id="ctx" width="512" height="512" style="border:1px solid #000000;"></canvas>
 	
-	<script>
+<script>
 		
-		ctx = document.getElementById("ctx").getContext("2d");
-		ctx.globalAlpha = 0.5;
-		
-		var WIDTH = 512;
-		var HEIGHT = 512;
-		
-		var length0 = 8;
-		var x0 = WIDTH/16;
-		var y0 = WIDTH/16;
-		
-		var snake = {
-			color:'pink',
-			head:{
-				x:length0*x0,
-				y:y0,
-				dir:39, //right
-			},
-			tail:{
-				x:x0,
-				y:y0,
-				dir:39, //right
-			},
-			blockSize:WIDTH/16,
-			borderSize:WIDTH/16/16,
-			turnq:[],
-			length:length0,
-		};
-	ctx.fillStyle = 'red'; //initial "worm hole"
-	ctx.fillRect( 			snake.head.x+snake.borderSize       ,
+	ctx = document.getElementById("ctx").getContext("2d");
+	ctx.globalAlpha = 0.5;
+	
+	var WIDTH = 512;
+	var HEIGHT = 512;
+	
+	var length0 = 8;
+	var x0 = WIDTH/16;
+	var y0 = WIDTH/16;
+	
+	var snake = {
+		color:'pink',
+		head:{
+			x:length0*x0,
+			y:y0,
+			dir:39, //right
+		},
+		tail:{
+			x:x0,
+			y:y0,
+			dir:39, //right
+		},
+		blockSize:WIDTH/16,
+		borderSize:WIDTH/16/16,
+		turnq:[],
+		length:length0,
+	};
+				 
+	 var food = {
+		 x:snake.head.y,
+		 y:snake.head.x,
+		 taken:[ 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],	],
+	 };
+	
+	ctx.fillStyle = 'red'; //initial "burrow hole"
+	ctx.fillRect( 	snake.head.x+snake.borderSize       ,
 				 snake.head.y+snake.borderSize       ,
 				 snake.blockSize-snake.borderSize    ,
 				 snake.blockSize-snake.borderSize    );
 				 ctx.fillStyle = snake.color;
-				 
-				 var food = {
-					 x:snake.head.y,
-					 y:snake.head.x,
-				 };
+	food.taken[snake.head.y/snake.blockSize][snake.head.x/snake.blockSize] = 1; //set bit
+	
 	spawnFood();
 	
 	var frame = setInterval(update,140);
@@ -57,11 +78,18 @@ function update(){
 	}
 	
 	blockPosUpdate(snake.head);
+	 if(isDead()){
+	   clearInterval(frame);
+	   console.log("game over!");
+	   return;
+	 }
 	
 	if(snake.head.x != food.x || snake.head.y != food.y){
 		ctx.clearRect(snake.tail.x,snake.tail.y,snake.blockSize,snake.blockSize);
+		food.taken[snake.tail.y/snake.blockSize][snake.tail.x/snake.blockSize] = 0; //clear bits
 		blockPosUpdate(snake.tail);
 	}else{
+		snake.length++;
 		spawnFood();
 	}
 	
@@ -69,35 +97,39 @@ function update(){
 				 snake.head.y+snake.borderSize       ,
 				 snake.blockSize-snake.borderSize    ,
 				 snake.blockSize-snake.borderSize    );
-				 
-				 if(snake.turnq.length > 0){
-					 if( snake.turnq[0].x == snake.tail.x &&
-						snake.turnq[0].y == snake.tail.y ){
-						 snake.tail.dir = snake.turnq.shift().dir; // O(n) complexity
-					 }
-				 }
-				 
-				 if(isDead()){
-   clearInterval(frame);
-   console.log("game over!");
-				 }
-				 
+	food.taken[snake.head.y/snake.blockSize][snake.head.x/snake.blockSize] = 1; //set bit
+	
+	 if(snake.turnq.length > 0){
+		 if( snake.turnq[0].x == snake.tail.x &&
+			snake.turnq[0].y == snake.tail.y ){
+			 snake.tail.dir = snake.turnq.shift().dir; // O(n) complexity
+		 }
+	 }
+ 
 }
-
 function spawnFood(){
-	do{
-		food.x = WIDTH/16*Math.floor(Math.random() * (16));
-		food.y = WIDTH/16*Math.floor(Math.random() * (16));
-	}while(bodyCollide(food));
+	var pos = Math.floor(Math.random() * (16*16-snake.length));
+	var counter = -1;
+	for(var i=0; i<16; i++){
+		for(var j=0; j<16; j++){
+			if(	food.taken[i][j] == 0 ){
+				counter++;
+				if( counter == pos ){
+					console.log(food.x);
+					food.y = i*WIDTH/16;
+					food.x = j*HEIGHT/16;
+				}
+			}
+		}
+	}
 	ctx.beginPath();
 	ctx.arc(	food.x+(snake.borderSize+snake.blockSize)/2		,
-			food.y+(snake.borderSize+snake.blockSize)/2		,
-			(snake.blockSize-4*snake.borderSize)/2			,
-			0												,
-			2*Math.PI										);
-			ctx.stroke();
+				food.y+(snake.borderSize+snake.blockSize)/2		,
+				(snake.blockSize-4*snake.borderSize)/2			,
+				0												,
+				2*Math.PI										);
+	ctx.stroke();
 }
-
 function isDead(){
 	
 	//wall collisions
@@ -110,7 +142,6 @@ function isDead(){
 	   
 	   return bodyCollide(snake.head);
 }
-
 function bodyCollide(block){
 	if(snake.turnq.length > 0){
 		switch(snake.tail.dir){
@@ -163,7 +194,6 @@ function bodyCollide(block){
 	
 	return false;
 }
-
 function headIntersect(block, cmnAx, startBlock, endBlock){
 	var offAx = (cmnAx == "y")?"x":"y";
 	if(block[cmnAx] == startBlock[cmnAx]){
@@ -174,7 +204,6 @@ function headIntersect(block, cmnAx, startBlock, endBlock){
 	}
 	return false;
 }
-
 function blockPosUpdate(block){
 	switch(block.dir){
 		case 37: //left
@@ -191,23 +220,22 @@ function blockPosUpdate(block){
 		break;
 	}
 }
-
 document.onkeydown = function(e) {
 	switch (e.keyCode) {
 		case 37: //left
 		case 38: //up
 		case 39: //right
 		case 40: //down
-		if(	(e.keyCode % 2) != (snake.head.dir % 2) ){ //change direction
-			snake.turnq.push({	x:snake.head.x,
-							y:snake.head.y,
-							dir:e.keyCode,	});
-		}
-		break;
+			if(	(e.keyCode % 2) != (snake.head.dir % 2) ){ //change direction
+				snake.turnq.push({	x:snake.head.x,
+									y:snake.head.y,
+									dir:e.keyCode,	});
+			}
+			break;
 	}
 };
 	
 	
-		</script>
+</script>
 	
 </html>
