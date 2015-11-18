@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Nicholas Tan</title>
+		<meta charset = "UTF-8">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	</head>
+
+	<body>
+		<div class = "foreGND">
+			<div class = "name">
+				Hello World
+			</div>
+		</div>
+		<div class = "middleGND">
+			<li>v1</li>
+			<li>v2</li>
+			<li>v3</li>
+			<li>v4</li>
+			<li>v5</li>
+		</div>
+	</body>
+
+	<script>
+		$( "li" ).each(function( index ) {
+		  	$( this ).css("left", Math.random()*$(document).width());
+			$( this ).css("top", Math.random()*$(document).height());
+			$( this ).css("position", "absolute");
+		});
+		var mouseX;
+		var mouseY;
+		$(".wrapper").on("click", function(){
+			if ( $(".wrapper").hasClass("white") ){
+				$(".wrapper").removeClass("white");
+			}else{
+				$(".wrapper").addClass("white");
+			}
+		});
+		$(document).mousemove( function(e) {
+   			mouseX = e.pageX; 
+   			mouseY = e.pageY;
+		});  
+	</script>
+
+</html>

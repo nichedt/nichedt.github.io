@@ -1,0 +1,23 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+.foreGND {
+	width: 100%;
+	height: 100vh;
+	position: absolute;
+}
+.middleGND {
+	width: 100%;
+	height: 100vh;
+	position: absolute;
+}
+.name {
+	font-size: 42px;
+	color: #999999;
+	text-align: center;
+	line-height: 100vh;
+}
+.white {
+	background: white;
+}
