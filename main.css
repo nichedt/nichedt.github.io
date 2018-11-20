@@ -1,4 +1,8 @@
+/* main.css */
+
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300|Roboto:300');
+
 /*@font-face {
 	font-family: "Circular-Medium";
 	src: url("fonts/circular-medium.otf");
@@ -7,6 +11,7 @@
 	font-family: "Circular-Light";
 	src: url("fonts/circular-book.otf");
 }*/
+
 body {
 	background-color: #fff !important;
 	font-family: 'Circular-Light', 'Open Sans';
@@ -27,7 +32,7 @@ h1 {
 }
 p {
 	color: #777;
-	font-size: 16px;
+	font-size: 20px;
 	font-weight: 200;
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
@@ -39,7 +44,7 @@ ul {
 }
 ul li {
 	display: inline;
-	font-size: 16px;
+	font-size: 15px;
 	padding-right: 12.5px;
 }
 
@@ -47,10 +52,10 @@ ul li {
 .container-fluid {
 	font-family: 'Circular-Light', 'Open Sans';
 	position: absolute;
-    width: 100%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+	width: 100%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 .crop {
 	position: relative;
@@ -59,34 +64,9 @@ ul li {
 	max-width: 230px;
 	overflow: hidden;
 	border-radius: 50%;
-	/*margin-right: 5%;*/
 }
 .info {
 	max-width: 70%;
 	margin-left: 5%;
 }
 
-
-/*@media (max-width: 480px) {
-	.container-fluid {
-		width: 70%;
-	}
-	h1 {
-		font-size: 32px;
-	}
-	p, li {
-		font-size: 15px;
-	}
-}
-
-@media (min-width: 481px) and (max-width: 767px) {
-
-}
-
-@media (min-width: 767px) and (max-width: 992px) {
-
-}
-
-@media (min-width: 993px) and (max-width: 1200px) {
-
-}*/
