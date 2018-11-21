@@ -1,30 +1,26 @@
 // unlock.js
 
-$(document).ready(function() {
+;(function($, window, document, undefined) {
+  window.method = null;
 
-    var password = 'password';
-    var blankHistory = '';
-    var messageLength = password.length;
-    var keyHistory = blankHistory;
-    var match;
-
-    // $.getScript('./sha3.min.js', function() {
-    //     // script is now loaded and executed.
-    //     // put your dependent JS here.
-    //     console.log(sha3_512(password))
-    // });
+  $(document).ready(function() {
+    var option = $('[data-option]');
     
+    var keyHistory = ''
+    var passHash = '01ddac292398df1c7c7db718adde4f81cc5a7fad18ff2d88be6defada292f4d8a52b368a831a0dd749ce3e61e395d342cbeb994c4cffedf69906a76f96898d0a';
+    var messageLength = passHash.length;
+    var match;
 
     $(document).keypress(function(e) {
         if(e.which == 13) { // ENTER
-            if (keyHistory == blankHistory) {
+            if (keyHistory == '') {
                 return
             }
             
-            sha_3_output = sha_3(keyHistory)
-            keyHistory = blankHistory;
+            sha_3_output = method(keyHistory, option.val())
+            keyHistory = '';
 
-            if (sha_3_output == password) {
+            if (sha_3_output == passHash) {
                 alert('password matches')
             }
             return
@@ -39,9 +35,11 @@ $(document).ready(function() {
 
     });
 
-    // https://csrc.nist.gov/csrc/media/publications/fips/180/4/final/documents/fips180-4-draft-aug2014.pdf
-    function sha_3(input) {
-        return input
-    }
+    var parts = location.pathname.split('/');
+    $('a[href="' + parts[parts.length - 1] + '"]').addClass('active');
+  });
 
-});
+})(jQuery, window, document);
+
+
+
