@@ -57,7 +57,8 @@ ul li {
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
-.crop {
+
+#crop {
 	position: relative;
 	float: right;
 	max-height: 230px;
@@ -65,7 +66,7 @@ ul li {
 	overflow: hidden;
 	border-radius: 50%;
 }
-.info {
+#info {
 	max-width: 70%;
 	margin-left: 5%;
 }
