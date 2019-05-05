@@ -1,0 +1,8 @@
+{
+  "name": "nichedt.github.io",
+  "version": "1.0.0",
+  "description": "website",
+  "main": "index.js",
+  "repository": "https://github.com/nichedt/nichedt.github.io",
+  "license": "MIT"
+}
