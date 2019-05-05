@@ -1,16 +1,4 @@
-/* main.css */
-
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300|Roboto:300');
-
-/*@font-face {
-	font-family: "Circular-Medium";
-	src: url("fonts/circular-medium.otf");
-}
-@font-face {
-	font-family: "Circular-Light";
-	src: url("fonts/circular-book.otf");
-}*/
-
 body {
 	background-color: #fff !important;
 	font-family: 'Circular-Light', 'Open Sans';
@@ -69,4 +57,3 @@ ul li {
 	max-width: 70%;
 	margin-left: 5%;
 }
-

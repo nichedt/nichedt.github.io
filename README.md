@@ -1,7 +1,15 @@
-#Nicholas Tan's website
+# Nicholas Tan's website
 
 ## TODO
 
-* Auth (Nich)
+**General**
+
+* Fix build and deploy
+* Add / fix frontend dependencies
+* Database
+
+**Website**
+
+* Auth backend (Nich)
 * Blog posts (Nich / Brandon)
-* Nice frontend (Brandon)
+* frontend things (Brandon)
