@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {Component} from "react";
 
-export default class Home extends Component {
-    state = {
-        name: null
-    };
+export interface HomeState {
+    name: string;
+}
+
+export default class Home extends Component<{}, HomeState> {
 
     componentDidMount() {
         fetch('/api')
