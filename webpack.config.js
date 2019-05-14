@@ -8,8 +8,8 @@ module.exports = {
     entry: './src/frontend/index.tsx',
     output: {
         path: path.join(__dirname, outputDirectory),
-        filename: 'bundle.js',
-        publicPath: '/'
+        filename: 'bundle.js'
+        // publicPath: '/'
     },
     module: {
         rules: [

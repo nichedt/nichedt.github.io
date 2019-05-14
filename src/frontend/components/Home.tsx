@@ -6,6 +6,10 @@ export interface HomeState {
 }
 
 export default class Home extends Component<{}, HomeState> {
+    constructor(props: any) {
+        super(props);
+        this.state = {name: null};
+    }
 
     componentDidMount() {
         fetch('/api')
