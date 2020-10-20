@@ -57,3 +57,11 @@ ul li {
 	max-width: 70%;
 	margin-left: 5%;
 }
+
+#passwordField {
+	border: none;
+}
+
+#passwordField:focus {
+	border: none;
+}

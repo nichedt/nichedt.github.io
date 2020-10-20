@@ -6,7 +6,7 @@
   "repository": "https://github.com/nichedt/nichedt.github.io",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently \"yarn run backend\" \"yarn run frontend\"",
+    "dev": "concurrently \"yarn dev:backend\" \"yarn dev:frontend\"",
     "dev:backend": "nodemon --config \"./src/backend/nodemon.json\"/",
     "dev:frontend": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "build": "webpack --mode production",
@@ -36,6 +36,7 @@
     "webpack-dev-server": "^3.3.1"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "bootstrap": "^3.3.7",
     "express": "^4.16.4",
     "react": "^16.8.6",

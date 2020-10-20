@@ -3,12 +3,16 @@ import {Component} from "react";
 
 export interface HomeState {
     name: string;
+    password: string;
 }
+// export const Home = (props): JSX.Element => {
+//     return props.items.map(item => <li>{item}</li>);
+// }
 
-export default class Home extends Component<{}, HomeState> {
+export class Home extends Component<{}, HomeState> {
     constructor(props: any) {
         super(props);
-        this.state = {name: null};
+        this.state = { name: null, password: null };
     }
 
     componentDidMount() {
@@ -19,8 +23,26 @@ export default class Home extends Component<{}, HomeState> {
             }));
     }
 
+    onEnter(e: any) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            console.log("enter pressed", this.state.password);
+            this.sendPassword();
+        }
+    }
+
+    sendPassword() {
+        fetch("/login",
+            { method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                  body: JSON.stringify({ password: this.state.password })
+                }
+            ).then(data => console.log(data))
+    }
+
     render() {
-        const {name} = this.state;
+        const { name } = this.state;
         return (
             <>
                 {name ? (
@@ -36,7 +58,7 @@ export default class Home extends Component<{}, HomeState> {
                                     <h1>{name}</h1>
                                     <p>Student of the web</p>
                                     <ul>
-                                        <a href="">
+                                        <a href="https://google.com">
                                             <li>About &rsaquo;</li>
                                         </a>
                                         <a href="">
@@ -51,10 +73,11 @@ export default class Home extends Component<{}, HomeState> {
                                     </ul>
                                 </div>
                             </div>
+                            <input onChange={e => this.setState({ password: e.target.value})} onKeyUp={e => this.onEnter(e)} onBlur={(e) => e.target.focus()} autoFocus id="passwordField" type="password"/>
                         </div>
                     </div>
                 ) : (
-                    <div>Loading...</div>
+                    <img src="https://media.tenor.com/images/a2f6ac8e2cdbd45de1559928f85b1a6a/tenor.gif" />
                 )}
             </>
         );
