@@ -15,7 +15,7 @@ const dir: string = path.join(__dirname, 'public');
 app.use(express.static(dir));
 
 app.use('/api', HomeRoute);
-app.use('/login', LoginRoute);
+app.use('/users', LoginRoute);
 
 app.listen(port, (err?: string): void => {
     if (err) return console.error(err);
