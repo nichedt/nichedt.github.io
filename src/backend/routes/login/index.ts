@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import path from 'path';
-import {loadJsonFile, writeToJsonFile} from "../../utils/jsonFileHandler";
+import { loadJsonFile, writeToJsonFile } from "../../utils/jsonFileHandler";
 
 const usersFile = path.join(__dirname, '../../files/users.json');
 const router: Router = Router();
