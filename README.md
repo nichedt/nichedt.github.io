@@ -32,6 +32,15 @@ local         0.000GB
 
 You're good to go.
 
+#### Database commands
+
+Once the backend is running, you'll see a new database when running `show dbs`, `passport-jwt`. Using the mongo CLI tool,
+select the database you would like to perform actions on with `use passport-jwt`.
+
+Use `show collections` to see the collections inside of `passport-jwt`. There should just be `users`.
+
+`db.users.find().pretty()` will return a JSON object of all the users in the collection. 
+
 ### Project commands
 
 `yarn dev` - runs both the backend and frontend in development mode

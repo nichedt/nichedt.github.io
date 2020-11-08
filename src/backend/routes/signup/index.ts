@@ -2,13 +2,20 @@ import { Router, Request, Response } from 'express';
 import passport from 'passport';
 const router: Router = Router();
 
-router.post('/',
-    passport.authenticate('signup', { session: false }),
-    async (req: Request, res: Response) => {
-        res.json({
-            message: 'Signup successful',
-            user: req.user
-        });
+router.post('/', async (req: Request, res: Response) => {
+    passport.authenticate('signup', { session: false }, (err, user, info) => {
+        const { message } = info;
+        if(err || !user) {
+            res.json({
+                message,
+            });
+        } else {
+            res.json({
+                message,
+                user,
+            });
+        }
+    })(req, res)
 });
 
 
