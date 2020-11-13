@@ -9,6 +9,7 @@ import { LoginRoute } from './routes/login';
 import { SignupRoute } from './routes/signup';
 import { UserRoute } from './routes/user'
 
+require('dotenv').config()
 require('./auth');
 
 mongoose.connect("mongodb://127.0.0.1:27017/passport-jwt", {
@@ -30,7 +31,7 @@ const dir: string = path.join(__dirname, 'public');
 app.use(express.static(dir));
 
 app.use('/api', HomeRoute);
-app.use('/users', LoginRoute);
+app.use('/login', LoginRoute);
 app.use('/signup', SignupRoute);
 app.use('/user',
     passport.authenticate('jwt', { session: false }),

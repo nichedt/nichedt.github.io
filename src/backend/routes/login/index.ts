@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import passport from "passport";
 import path from 'path';
 import { loadJsonFile, writeToJsonFile } from "../../utils/jsonFileHandler";
 
@@ -12,20 +13,15 @@ export interface LoginCredentials {
 }
 
 router.post('/', async (req: Request, res: Response) => {
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10)
-        const user: LoginCredentials = { username: req.body.username, password: hashedPassword }
-        const data = await loadJsonFile(usersFile);
-        if(data.filter(item => item.username === user.username).length) {
-            res.status(500).send()
+    req.body.email ??= process.env.DEFAULT_LOGIN_EMAIL;
+    passport.authenticate('login', (err, user, info) => {
+        const { message } = info;
+        if(err || !user) {
+            res.json({ message });
         } else {
-            data.push(user);
-            const err = await writeToJsonFile(usersFile, data);
-            res.status(err ? 500 : 201).send();
+            res.json({ message, user });
         }
-    } catch {
-        res.status(500).send()
-    }
+    })(req, res)
 });
 
 router.get('/', async (req, res) => {
