@@ -1,8 +1,8 @@
 {
-    "defaultSeverity": "error",
-    "jsRules": {},
-    "rules": {
-        "no-console": false
-    },
-    "rulesDirectory": []
+  "defaultSeverity": "error",
+  "jsRules": {},
+  "rules": {
+    "no-console": false
+  },
+  "rulesDirectory": []
 }
