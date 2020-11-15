@@ -2,14 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const outputDirectory = 'dist';
-
 module.exports = {
-    entry: './src/frontend/index.tsx',
+    entry: path.resolve(__dirname, './src/frontend/index'),
     output: {
-        path: path.join(__dirname, outputDirectory),
+        path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
-        // publicPath: '/'
     },
     module: {
         rules: [
@@ -18,8 +15,19 @@ module.exports = {
                 loader: 'ts-loader',
             },
             {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                test: /\.css$/i,
+                use: [
+                    'style-loader',
+                    'css-loader', {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                ident: 'postcss',
+                                plugins: [ require('./postcss.config').plugins ],
+                            },
+                        }
+                    }
+                ],
             },
             {
                 test: /\.(png|woff|woff2|eot|ttf|svg)$/,
@@ -36,7 +44,6 @@ module.exports = {
         open: true,
         proxy: {
             '/api': 'http://localhost:8080',
-            '/login': 'http://localhost:8080'
         }
     },
     plugins: [
