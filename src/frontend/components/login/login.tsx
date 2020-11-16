@@ -1,9 +1,11 @@
+import { Input } from 'postcss';
 import { useState } from 'react';
 import * as React from 'react';
+import { TestInput } from './styled';
 
 export default (): JSX.Element => {
   const [isOn, setIsOn] = useState(false);
-
+  // return <TestInput hasHover />;
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
       <div className='max-w-md w-full'>

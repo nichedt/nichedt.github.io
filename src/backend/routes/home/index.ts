@@ -1,15 +1,11 @@
 import { Router, Request, Response } from 'express';
 const router: Router = Router();
 
-export interface Home {
-  name?: string;
-}
-
 router.get('/', (req: Request, res: Response) => {
   // use interface
   console.log('WE ARE HERE');
   console.log(req, res);
-  res.send({ name: 'I Love Joanna' } as Home);
+  res.send({ name: 'I Love Joanna' });
 });
 
 router.get('/:name', (req: Request, res: Response) => {

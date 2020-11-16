@@ -9,6 +9,7 @@ import { LoginRoute } from './routes/login';
 import { SignupRoute } from './routes/signup';
 import { UserRoute } from './routes/user';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 require('./auth');
 
