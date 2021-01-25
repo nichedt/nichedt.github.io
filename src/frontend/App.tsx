@@ -8,6 +8,8 @@ export const App = (): JSX.Element => (
     <Switch>
       <Route exact path='/' component={Home} />
       <Route exact path='/login' component={Login} />
+      {/* <Route exact path='/edit' component={Editor} />
+      <Route exact path='/create' component={Editor} /> */}
     </Switch>
   </BrowserRouter>
 );

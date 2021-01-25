@@ -4,23 +4,30 @@
 
 ### OS Dependencies
 
-Likely move to docker at some point to handle this, but for now:
+_For Apple Silicon CPUs, run `arch -x86_64 zsh` prior to installing any packages or running any project commands._
 
-- [Install Node for MacOS](https://nodejs.org/en/download/)
-- [Install Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable)
-- [Install nvm](https://github.com/nvm-sh/nvm)
-- [Install MonogoDB for MacOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
+Likely move to docker at some point to handle this. Install these OS dependencies if you do not already have them installed.
+
+- [node](https://nodejs.org/en/download/)
+- [yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable)
+- [nvm](https://github.com/nvm-sh/nvm)
+- [monogoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
 
 ### Project Dependencies
 
-- from the project root, run `nvm use`
-  - You may be prompted to install a different version of node for this project, `v12.15.0`
-- run `yarn install` to install all project dependencies
+Once the OS dependencies are installed, install the project packages.
+
+From the project root, run `nvm use` You may be prompted to install a different version of node for this project, `v12.15.0`
+
+Run `yarn install` to install all project dependencies once you've switched to the right node version from `nvm use`.
 
 ### Database setup
 
-- [Make sure you have MonogoDB installed](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
-- Use `brew services start mongo` to start the service in the background. Don't worry about `data/db` for now.
+- [Install MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/) if you didn't from the start
+- Quick install with brew
+  - `brew tap mongodb/brew`
+  - `brew install mongodb-community`
+  - `brew services start mongodb-community`
 - Test that monogoDB is running locally by running `mongo` in terminal. You should enter the mongo CLI tool.
 - Run `show dbs`. It should show:
 
@@ -30,7 +37,7 @@ config        0.000GB
 local         0.000GB
 ```
 
-You're good to go.
+MonogoDB is now installed and ready to go.
 
 #### Database commands
 
@@ -49,7 +56,7 @@ Use `show collections` to see the collections inside of `passport-jwt`. There sh
 
 `yarn dev:frontend` - run the client only in development mode
 
-`yarn build` - build the entire application (really just the client)
+`yarn build` - builds the entire application
 
 `yarn start` - builds the entire application and runs it in production mode
 
