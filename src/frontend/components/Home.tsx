@@ -1,256 +1,193 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-export interface HomeState {
-  name: string;
-  password: string;
-}
-// export const Home = (props): JSX.Element => {
-//     return props.items.map(item => <li>{item}</li>);
-// }
-
-export class Home extends Component<unknown, HomeState> {
-  constructor(props: any) {
-    super(props);
-    this.state = { name: null, password: null };
-  }
-
-  componentDidMount() {
-    fetch('/api')
-      .then((res) => res.json())
-      .then((data) =>
-        this.setState({
-          name: data.name,
-        }),
-      );
-  }
-
-  onEnter(e: any) {
-    if (e.key === 'Enter' || e.keyCode === 13) {
-      console.log('enter pressed', this.state.password);
-      this.sendPassword();
-    }
-  }
-
-  sendPassword() {
-    fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ password: this.state.password }),
-    }).then((data) => console.log(data));
-  }
-
-  render() {
-    const { name } = this.state;
-    return (
-      <>
-        <div>testing</div>
-        {name && (
-          <div className='bg-white overflow-hidden'>
-            <div className='max-w-screen-xl mx-auto'>
-              <div className='relative z-10 bg-white lg:w-1/2'>
+export const Home = () => {
+  return (
+    <div className='min-h-screen bg-black bg-opacity-90 overflow-hidden'>
+      <nav className='bg-black bg-opacity-30'>
+        <div className='max-w-7xl mx-auto px-2 sm:px-6 lg:px-8'>
+          <div className='relative flex items-center justify-between h-16'>
+            <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
+              <button
+                className='inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white'
+                aria-expanded='false'
+              >
+                <span className='sr-only'>Open main menu</span>
                 <svg
-                  className='hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2'
-                  fill='currentColor'
-                  viewBox='0 0 100 100'
-                  preserveAspectRatio='none'
+                  className='block h-6 w-6'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                  aria-hidden='true'
                 >
-                  <polygon points='50,0 100,0 50,100 0,100' />
+                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M4 6h16M4 12h16M4 18h16' />
                 </svg>
 
-                <div className='relative pt-6 px-4 sm:px-6 lg:px-8'>
-                  <nav className='relative flex items-center justify-between sm:h-10 lg:justify-start'>
-                    <div className='flex items-center flex-grow flex-shrink-0 lg:flex-grow-0'>
-                      <div className='flex items-center justify-between w-full md:w-auto'>
-                        <a href='#' aria-label='Home'>
-                          <img
-                            className='h-8 w-auto sm:h-10'
-                            src='https://tailwindui.com/img/logos/v1/workflow-mark-on-white.svg'
-                            alt='Logo'
-                          />
-                        </a>
-                        <div className='-mr-2 flex items-center md:hidden'>
-                          <button
-                            type='button'
-                            className='inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out'
-                            id='main-menu'
-                            aria-label='Main menu'
-                            aria-haspopup='true'
-                          >
-                            <svg className='h-6 w-6' stroke='currentColor' fill='none' viewBox='0 0 24 24'>
-                              <path
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                                strokeWidth='2'
-                                d='M4 6h16M4 12h16M4 18h16'
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className='hidden md:block md:ml-10 md:pr-4'>
-                      <a
-                        href='#'
-                        className='font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out'
-                      >
-                        Product
-                      </a>
-                      <a
-                        href='#'
-                        className='ml-8 font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out'
-                      >
-                        Features
-                      </a>
-                      <a
-                        href='#'
-                        className='ml-8 font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out'
-                      >
-                        Marketplace
-                      </a>
-                      <a
-                        href='#'
-                        className='ml-8 font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out'
-                      >
-                        Company
-                      </a>
-                      <a
-                        href='/login'
-                        className='ml-8 font-medium text-indigo-600 hover:text-indigo-900 transition duration-150 ease-in-out'
-                      >
-                        Log in
-                      </a>
-                    </div>
-                  </nav>
-                </div>
-
-                {/*Mobile menu, show/hide based on menu open state.*/}
-
-                {/*Entering: "duration-150 ease-out"*/}
-                {/*  From: "opacity-0 scale-95"*/}
-                {/*  To: "opacity-100 scale-100"*/}
-                {/*Leaving: "duration-100 ease-in"*/}
-                {/*  From: "opacity-100 scale-100"*/}
-                {/*  To: "opacity-0 scale-95"*/}
-
-                <div className='absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden'>
-                  <div className='rounded-lg shadow-md'>
-                    <div
-                      className='rounded-lg bg-white shadow-xs overflow-hidden'
-                      role='menu'
-                      aria-orientation='vertical'
-                      aria-labelledby='main-menu'
+                <svg
+                  className='hidden h-6 w-6'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                  aria-hidden='true'
+                >
+                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
+                </svg>
+              </button>
+            </div>
+            <div className='flex-1 flex items-center justify-center sm:items-stretch sm:justify-start'>
+              <div className='flex-shrink-0 flex items-center'>
+                <img
+                  className='block h-8 w-auto'
+                  src='https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg'
+                  alt='Workflow'
+                />
+              </div>
+              <div className='hidden sm:block sm:ml-6'>
+                <div className='flex space-x-4'>
+                  <a href='#' className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>
+                    Home
+                  </a>
+                  <a
+                    href='#'
+                    className='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
+                  >
+                    About
+                  </a>
+                  <a
+                    href='#'
+                    className='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
+                  >
+                    Posts
+                  </a>
+                  <div className='inline-flex rounded-sm shadow'>
+                    <a
+                      href='#'
+                      className='inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700'
                     >
-                      <div className='px-5 pt-4 flex items-center justify-between'>
-                        <div>
-                          <img
-                            className='h-8 w-auto'
-                            src='https://tailwindui.com/img/logos/v1/workflow-mark-on-white.svg'
-                            alt=''
-                          />
-                        </div>
-                        <div className='-mr-2'>
-                          <button
-                            type='button'
-                            className='inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out'
-                            aria-label='Close menu'
-                          >
-                            <svg className='h-6 w-6' stroke='currentColor' fill='none' viewBox='0 0 24 24'>
-                              <path
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                                strokeWidth='2'
-                                d='M6 18L18 6M6 6l12 12'
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                      <div className='px-2 pt-2 pb-3'>
-                        <a
-                          href='#'
-                          className='block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out'
-                          role='menuitem'
-                        >
-                          Product
-                        </a>
-                        <a
-                          href='#'
-                          className='mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out'
-                          role='menuitem'
-                        >
-                          Features
-                        </a>
-                        <a
-                          href='#'
-                          className='mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out'
-                          role='menuitem'
-                        >
-                          Marketplace
-                        </a>
-                        <a
-                          href='#'
-                          className='mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out'
-                          role='menuitem'
-                        >
-                          Company
-                        </a>
-                      </div>
-                      <div>
-                        <a
-                          href='/login'
-                          className='block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100 hover:text-indigo-700 focus:outline-none focus:bg-gray-100 focus:text-indigo-700 transition duration-150 ease-in-out'
-                          role='menuitem'
-                        >
-                          Log in
-                        </a>
-                      </div>
-                    </div>
+                      Create
+                    </a>
                   </div>
                 </div>
-
-                <main className='mt-10 mx-auto max-w-screen-xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28'>
-                  <div className='sm:text-center lg:text-left'>
-                    <h2 className='text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl'>
-                      <span className='text-indigo-600'>Nicholas Tan</span>
-                    </h2>
-                    <p className='mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0'>
-                      {name}
-                    </p>
-                    <div className='mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start'>
-                      <div className='rounded-md shadow'>
-                        <a
-                          href='#'
-                          className='w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10'
-                        >
-                          Blog
-                        </a>
-                      </div>
-                      <div className='mt-3 sm:mt-0 sm:ml-3'>
-                        <a
-                          href='/login'
-                          className='w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:text-indigo-600 hover:bg-indigo-50 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-300 transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10'
-                        >
-                          Log in
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </main>
               </div>
             </div>
-            <div className='lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2'>
-              <img
-                className='h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full'
-                src='https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80'
-                alt=''
-              />
+            <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
+              <button className='bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'>
+                <span className='sr-only'>View notifications</span>
+                <svg
+                  className='h-6 w-6'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                  aria-hidden='true'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9'
+                  />
+                </svg>
+              </button>
+              <div className='ml-3 relative'>
+                <div>
+                  <button
+                    className='bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'
+                    id='user-menu'
+                    aria-haspopup='true'
+                  >
+                    <span className='sr-only'>Open user menu</span>
+                    <img
+                      className='h-8 w-8 rounded-full'
+                      src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                      alt=''
+                    />
+                  </button>
+                </div>
+                <div
+                  className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5'
+                  role='menu'
+                  aria-orientation='vertical'
+                  aria-labelledby='user-menu'
+                >
+                  <a href='#' className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100' role='menuitem'>
+                    Your Profile
+                  </a>
+                  <a href='#' className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100' role='menuitem'>
+                    Settings
+                  </a>
+                  <a href='#' className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100' role='menuitem'>
+                    Sign out
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        )}
-      </>
-    );
-  }
-}
+        </div>
+        <div className='hidden sm:hidden'>
+          <div className='px-2 pt-2 pb-3 space-y-1'>
+            <a href='#' className='bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium'>
+              Home
+            </a>
+            <a
+              href='#'
+              className='text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'
+            >
+              About
+            </a>
+            <a
+              href='#'
+              className='text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'
+            >
+              Posts
+            </a>
+            <a
+              href='#'
+              className='text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'
+            >
+              Calendar
+            </a>
+          </div>
+        </div>
+      </nav>
+      <div className='px-4 py-12 lg:px-0 text-white'>
+        <div className='flex flex-col max-w-screen-sm mx-auto justify-content'>
+          <div className='flex flex-col space-y-24'>
+            <div className='flex flex-col space-y-8 md:items-center'>
+              <div className='flex flex-col space-y-2 md:items-center md:text-center'>
+                <h1 className='text-5xl font-bold'>Nicholas Tan</h1>
+                <p className='text-lg py-2'>
+                  I'm an electrial engineer, mathematician, and writer, living in the San Francisco Bay Area. I’m
+                  currently a firmware engineer at 
+                </p>
+              </div>
+            </div>
+            <div className='flex flex-col w-full timeline-container'>
+              <div className='flex items-center mt-4 mb-4 timeline-item'>
+                <p className='text-lg font-bold'>January, 2021</p>
+                <div className='flex-1 h-px ml-4 bg-gray-700 timeline-stroke'></div>
+              </div>
+              <a className='py-3' href='#'>
+                <h3 className='font-semibold text-green-300'>Sample Blog Post</h3>
+                <p className='text-md font-normal text-white py-1'>
+                  I am developing this website, and needed a brief summary for this sample blog post. Check it out
+                </p>
+                <p className='text-sm font-medium text-gray-400'>Updated 1 week ago &middot; 5 min read</p>
+              </a>
+              <a className='py-3' href='#'>
+                <h3 className='font-semibold text-green-300'>Sample Blog Post 2</h3>
+                <p className='text-md font-normal text-white py-1'>
+                  I am developing this website, and needed a brief summary for this sample blog post number 2. Check it
+                  out if you can!
+                </p>
+                <p className='text-sm font-medium text-gray-400'>Updated 2 weeks ago &middot; 2 min read</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

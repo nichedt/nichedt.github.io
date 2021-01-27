@@ -16,7 +16,7 @@ module.exports = (env) => {
     // can create a custom theme with file ./tailwind.config.js
     // https://tailwindcss.com/docs/installation#create-your-tailwind-config-file
     // future reference, plugins: [require('tailwindcss')('./tailwind.config.js'), require(...)]
-    plugins: [require('tailwindcss'), require('autoprefixer')],
+    plugins: [require('tailwindcss')('./tailwind.config.js'), require('autoprefixer')],
   };
   // purge in production only
   if (env.mode === 'production') config.plugins.push(purgecss);

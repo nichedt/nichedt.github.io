@@ -1,13 +1,16 @@
 import { Input } from 'postcss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as React from 'react';
 import { TestInput } from './styled';
 
 export default (): JSX.Element => {
   const [isOn, setIsOn] = useState(false);
+  useEffect(() => {
+    console.log('test');
+  }, []);
   // return <TestInput hasHover />;
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
+    <div className='min-h-screen flex items-center justify-center bg-black bg-opacity-90 py-12 px-4 sm:px-6 lg:px-8'>
       <div className='max-w-md w-full'>
         <div>
           <img
@@ -15,7 +18,7 @@ export default (): JSX.Element => {
             src='https://tailwindui.com/img/logos/v1/workflow-mark-on-white.svg'
             alt='Workflow'
           />
-          <h2 className='mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900'>Sign in</h2>
+          {/* <h2 className='mt-6 text-center text-3xl leading-9 font-extrabold dark:text-white'>Sign in</h2> */}
         </div>
         <form className='mt-8' action='#' method='POST'>
           <input type='hidden' name='remember' value='true' />
@@ -25,7 +28,7 @@ export default (): JSX.Element => {
                 aria-label='Email address'
                 name='email'
                 type='email'
-                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5'
+                className='bg-black bg-opacity-30 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-400 text-white rounded-t-md focus:outline-none focus:shadow-outline-blue focus:border-gray-400 focus:z-10 sm:text-sm sm:leading-5'
                 placeholder='Email address'
               />
             </div>
@@ -35,7 +38,7 @@ export default (): JSX.Element => {
                 name='password'
                 type='password'
                 required
-                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5'
+                className='bg-black bg-opacity-30 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-400 text-white rounded-b-md focus:outline-none focus:shadow-outline-blue focus:border-gray-400 focus:z-10 sm:text-sm sm:leading-5'
                 placeholder='Password'
               />
             </div>
@@ -48,7 +51,7 @@ export default (): JSX.Element => {
                 type='checkbox'
                 className='form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out'
               />
-              <label htmlFor='remember_me' className='ml-2 block text-sm leading-5 text-gray-900'>
+              <label htmlFor='remember_me' className='ml-2 block text-sm leading-5 text-white'>
                 Remember me
               </label>
             </div>
