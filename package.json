@@ -19,7 +19,7 @@
     }
   },
   "devDependencies": {
-    "@emotion/react": "^11.0.0",
+    "@emotion/react": "^11.1.4",
     "@emotion/styled": "^11.0.0",
     "@fullhuman/postcss-purgecss": "^3.0.0",
     "@types/dotenv": "^8.2.0",
@@ -76,6 +76,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "react": "^16.8.6",
+    "react-contenteditable": "^3.3.5",
     "react-dom": "^16.8.6",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.2.0",

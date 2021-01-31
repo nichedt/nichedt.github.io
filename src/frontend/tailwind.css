@@ -4,3 +4,9 @@
 @tailwind components;
 /* purgecss end ignore */
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-black bg-opacity-90;
+  }
+}
